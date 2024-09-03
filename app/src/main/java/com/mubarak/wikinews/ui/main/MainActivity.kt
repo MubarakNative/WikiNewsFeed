@@ -1,4 +1,4 @@
-package com.mubarak.wikinews
+package com.mubarak.wikinews.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
