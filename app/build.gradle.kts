@@ -67,6 +67,12 @@ dependencies {
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.hilt.navigation.compose)
 
+    // Navigation Suite Scaffold
+    implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.3.0")
+
+    // Material Icons Extended
+    implementation("androidx.compose.material:material-icons-extended")
+
     // AAC
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
