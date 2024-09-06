@@ -1,5 +1,8 @@
 package com.mubarak.wikinews.di
 
+import com.mubarak.wikinews.data.sources.DefaultNewsRepository
+import com.mubarak.wikinews.data.sources.NewsRemoteDataSource
+import com.mubarak.wikinews.data.sources.NewsRepository
 import com.mubarak.wikinews.data.sources.remote.DefaultNewsFeedApi
 import com.mubarak.wikinews.data.sources.remote.NewsFeedApi
 import dagger.Module
@@ -45,5 +48,15 @@ object NetworkModule {
     @Provides
     fun provideNewsFeedApi(httpClient: HttpClient): NewsFeedApi =
         DefaultNewsFeedApi(httpClient)
+
+    @Provides
+    @Singleton
+    fun provideNewsRemoteDataSource(newsFeedApi: NewsFeedApi): NewsRemoteDataSource =
+        NewsRemoteDataSource(newsFeedApi)
+
+    @Singleton
+    @Provides
+    fun provideNewsRepository(newsRemoteDataSource: NewsRemoteDataSource): NewsRepository =
+        DefaultNewsRepository(newsRemoteDataSource)
 
 }
