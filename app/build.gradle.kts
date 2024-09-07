@@ -90,6 +90,9 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
 
+    // Coil Compose
+    implementation(libs.coil.compose)
+
     // KotlinX Serialization
     implementation(libs.kotlinx.serialization.json)
 

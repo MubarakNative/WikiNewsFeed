@@ -4,4 +4,6 @@
     <string name="breaking">Breaking</string>
     <string name="bookmarks">Saved</string>
     <string name="settings">Settings</string>
+    <string name="today_featured_article">Today featured article</string>
+    <string name="today_hot_topic">Today hot topics</string>
 </resources>

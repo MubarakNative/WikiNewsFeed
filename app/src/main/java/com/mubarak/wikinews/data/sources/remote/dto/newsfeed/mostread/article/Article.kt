@@ -1,6 +1,7 @@
-package com.mubarak.wikinews.data.sources.remote.dto
+package com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.article
 
 
+import com.mubarak.wikinews.data.sources.remote.dto.ContentUrls
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -9,8 +10,8 @@ data class Article(
     @SerialName("content_urls")
     val contentUrls: ContentUrls,
 
-    @SerialName("description")
-    val description: String?,
+  //  @SerialName("description")
+ //   val description: String?,
 
     @SerialName("extract")
     val longDescription: String,
@@ -18,8 +19,8 @@ data class Article(
     @SerialName("normalizedtitle")
     val normalizedTitle: String,
 
-    @SerialName("thumbnail")
-    val thumbnail: Thumbnail?,
+ //   @SerialName("thumbnail")
+   // val thumbnail: ArticleThumnail?,
 
     @SerialName("tid")
     val tid: String,

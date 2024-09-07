@@ -1,6 +1,7 @@
-package com.mubarak.wikinews.data.sources.remote.dto
+package com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday
 
 
+import com.mubarak.wikinews.data.sources.remote.dto.Page
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

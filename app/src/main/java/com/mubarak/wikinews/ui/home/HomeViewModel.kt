@@ -21,6 +21,7 @@ sealed interface HomeUiState {
     data object Loading : HomeUiState
 }
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository
@@ -29,15 +30,19 @@ class HomeViewModel @Inject constructor(
     var newsUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
         private set
 
+    init {
+        getNewsFeed()
+    }
 
-    fun getNewsFeed() {
+    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
+    private fun getNewsFeed() {
         viewModelScope.launch {
             newsUiState = HomeUiState.Loading
             newsUiState = try {
                 HomeUiState.Success(newsRepository.getNewsFeed())
             }catch (e:IOException){
                 HomeUiState.Error
-            }catch (e:Exception){
+            }catch (e:HttpException){
                 HomeUiState.Error
             }
         }

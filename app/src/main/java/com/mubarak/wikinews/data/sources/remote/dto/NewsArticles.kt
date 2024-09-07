@@ -1,6 +1,7 @@
 package com.mubarak.wikinews.data.sources.remote.dto
 
 
+import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.NewsArticleThumnail
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
@@ -19,7 +20,7 @@ data class NewsArticles(
     val normalizedTitle: String,
 
     @SerialName("thumbnail")
-    val thumbnail: Thumbnail?,
+    val thumbnail: NewsArticleThumnail? = null,
 
     @SerialName("tid")
     val tid: String,
