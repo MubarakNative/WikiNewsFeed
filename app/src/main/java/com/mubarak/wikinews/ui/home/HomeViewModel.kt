@@ -1,8 +1,5 @@
 package com.mubarak.wikinews.ui.home
 
-import android.net.http.HttpException
-import android.os.Build
-import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -21,7 +18,6 @@ sealed interface HomeUiState {
     data object Loading : HomeUiState
 }
 
-@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @HiltViewModel
 class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository
@@ -34,7 +30,6 @@ class HomeViewModel @Inject constructor(
         getNewsFeed()
     }
 
-    @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
     private fun getNewsFeed() {
         viewModelScope.launch {
             newsUiState = HomeUiState.Loading
@@ -42,9 +37,9 @@ class HomeViewModel @Inject constructor(
                 HomeUiState.Success(newsRepository.getNewsFeed())
             }catch (e:IOException){
                 HomeUiState.Error
-            }catch (e:HttpException){
+            }/*catch (e:HttpException){
                 HomeUiState.Error
-            }
+            }*/
         }
     }
 

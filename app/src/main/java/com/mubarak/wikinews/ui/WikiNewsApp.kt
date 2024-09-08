@@ -12,7 +12,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import com.mubarak.wikinews.ui.home.WikiNewsHomeScreen
+import com.mubarak.wikinews.ui.home.HomeScreen
 
 @Composable
 fun WikiNewsApp(
@@ -39,7 +39,7 @@ fun WikiNewsApp(
     ) {
         when (currentDestination) {
             TopLevelDestination.HOME -> {
-                WikiNewsHomeScreen()
+                HomeScreen()
             }
 
             TopLevelDestination.BREAKING -> {

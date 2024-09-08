@@ -16,7 +16,7 @@ class DefaultNewsFeedApi(
                url { // configure the URL components separately
                    protocol = URLProtocol.HTTPS
                    host = "api.wikimedia.org"
-                   path("feed/v1/wikipedia/en/featured/2024/09/07") // TODO: replace with current dynamic date
+                   path("feed/v1/wikipedia/en/featured/2024/09/08") // TODO: replace with current dynamic date
                }
             }
         }.body()

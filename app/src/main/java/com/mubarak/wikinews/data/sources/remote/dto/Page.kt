@@ -20,6 +20,9 @@ data class Page(
     @SerialName("thumbnail")
     val thumbnail: PageThumnail? = null,
 
+    @SerialName("pageid")
+    val pageId:Long,
+
     @SerialName("tid")
     val tid: String,
 

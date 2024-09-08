@@ -10,8 +10,8 @@ data class Article(
     @SerialName("content_urls")
     val contentUrls: ContentUrls,
 
-  //  @SerialName("description")
- //   val description: String?,
+    @SerialName("description")
+    val description: String? = null,
 
     @SerialName("extract")
     val longDescription: String,
@@ -19,8 +19,8 @@ data class Article(
     @SerialName("normalizedtitle")
     val normalizedTitle: String,
 
- //   @SerialName("thumbnail")
-   // val thumbnail: ArticleThumnail?,
+    @SerialName("thumbnail")
+    val thumbnail: ArticleThumnail?= null,
 
     @SerialName("tid")
     val tid: String,

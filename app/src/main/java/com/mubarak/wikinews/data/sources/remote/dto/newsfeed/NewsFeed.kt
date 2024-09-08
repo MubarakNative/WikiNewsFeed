@@ -1,6 +1,5 @@
 package com.mubarak.wikinews.data.sources.remote.dto.newsfeed
 
-
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.MostRead
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
@@ -18,7 +17,7 @@ data class NewsFeed(
     val news: List<News>,
 
     @SerialName("onthisday")
-    val onThisDay: List<Onthisday>?= null,
+    val onThisDay: List<Onthisday>,
 
     @SerialName("tfa")
     val todayFeaturedArticle: Tfa

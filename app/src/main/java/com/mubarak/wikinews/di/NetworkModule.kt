@@ -33,6 +33,7 @@ object NetworkModule {
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
+                    isLenient = true
                 })
             }
             install(Logging) {

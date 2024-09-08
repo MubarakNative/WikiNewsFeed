@@ -4,7 +4,10 @@ plugins {
     alias(libs.plugins.kotlinSymbolProcessing)
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.compose.compiler)
-    kotlin("plugin.serialization") version "2.0.0"
+   // kotlin("plugin.serialization") version "2.0.20"
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
+
+
 }
 
 android {
@@ -34,6 +37,10 @@ android {
         }
     }
     compileOptions {
+
+        // enabling desugared library for agp 4.0.0+ to support java 8+ api feature
+        isCoreLibraryDesugaringEnabled = true
+
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
     }
@@ -55,6 +62,9 @@ android {
 
 dependencies {
 
+    // Desugaring Library
+    coreLibraryDesugaring(libs.desugar.jdk.libs)
+
     // Core UI
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
@@ -68,10 +78,10 @@ dependencies {
     implementation(libs.androidx.hilt.navigation.compose)
 
     // Navigation Suite Scaffold
-    implementation("androidx.compose.material3:material3-adaptive-navigation-suite:1.3.0")
+    implementation(libs.material3.adaptive.navigation.suite)
 
     // Material Icons Extended
-    implementation("androidx.compose.material:material-icons-extended")
+    implementation(libs.androidx.material.icons.extended)
 
     // AAC
     implementation(libs.androidx.lifecycle.viewmodel.compose)
