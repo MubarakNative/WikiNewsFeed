@@ -23,7 +23,7 @@ import com.mubarak.wikinews.utils.TimeStampConvertor
 
 
 @Composable
-fun NewsArticlesFeed(modifier: Modifier = Modifier, news: NewsArticles) {
+fun NewsArticlesFeed(modifier: Modifier = Modifier, news: NewsArticles,timeStamp: String = TimeStampConvertor.formatTimestampToUtc(news.timestamp)) {
 
     Card(
         elevation = CardDefaults.cardElevation(
@@ -54,7 +54,7 @@ fun NewsArticlesFeed(modifier: Modifier = Modifier, news: NewsArticles) {
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Text(
-                    text = TimeStampConvertor.formatTimestampToUtc(news.timestamp),
+                    text = timeStamp,
                     style = MaterialTheme.typography.bodySmall
                 )
 
@@ -77,5 +77,5 @@ val fakeNewsArticles: NewsArticles = NewsArticles(
 @Preview
 @Composable
 private fun NewsArticlePreview() {
-    NewsArticlesFeed(news = fakeNewsArticles)
+    NewsArticlesFeed(news = fakeNewsArticles, timeStamp = "September 9, 2024")
 }

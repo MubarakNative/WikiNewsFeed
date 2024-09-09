@@ -96,8 +96,11 @@ dependencies {
     // Ktor-Client
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android) // Engine
+
+    // Ktor Plugins
+    implementation(libs.ktor.client.auth) // Auth
     implementation(libs.ktor.client.logging) // Logging (Debug feature only)
-    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.client.content.negotiation) // Serialization
     implementation(libs.ktor.serialization.kotlinx.json)
 
     // Coil Compose
@@ -108,6 +111,9 @@ dependencies {
 
     // Design System
     implementation(libs.androidx.material3)
+
+    // Google Fonts
+    implementation(libs.androidx.ui.text.google.fonts)
 
     // Debug Features
     implementation(libs.androidx.ui.tooling.preview)

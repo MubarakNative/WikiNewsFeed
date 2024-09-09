@@ -10,15 +10,16 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NewsFeed(
 
+    @SerialName("tfa")
+    val todayFeaturedArticle: Tfa? = null,
+
     @SerialName("mostread")
-    val mostRead: MostRead, // news
+    val mostRead: MostRead? = null, // news
 
     @SerialName("news")
-    val news: List<News>,
+    val news: List<News>?= null,
 
     @SerialName("onthisday")
-    val onThisDay: List<Onthisday>,
+    val onThisDay: List<Onthisday>? = null,
 
-    @SerialName("tfa")
-    val todayFeaturedArticle: Tfa
 )

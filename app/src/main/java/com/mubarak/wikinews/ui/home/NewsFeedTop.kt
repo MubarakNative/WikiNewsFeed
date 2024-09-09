@@ -41,16 +41,8 @@ fun TodayFeaturedArticle(
         Spacer(modifier = Modifier.height(16.dp))
 
         NewsTitle(
-            modifier = Modifier.padding(bottom = 8.dp),
-            text = tfa.normalizedTitle
-        )
-
-        Text(
             text = tfa.largeDescription,
-            style = typography.labelLarge,
-            maxLines = 2,
-            overflow = TextOverflow.Ellipsis,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier.padding(bottom = 6.dp)
         )
         Text(
             text = TimeStampConvertor.formatTimestampToUtc(tfa.timestamp),

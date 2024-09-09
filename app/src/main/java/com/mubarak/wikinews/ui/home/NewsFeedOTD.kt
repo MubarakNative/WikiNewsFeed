@@ -30,9 +30,9 @@ fun OnThisDaySection(
         NewsFeedImage(
             modifier = Modifier
                 .padding(16.dp)
-                .size(120.dp, 120.dp)
-                .clip(MaterialTheme.shapes.medium),
-            imgUrl = onThisDay.pages[1].thumbnail?.imgUrl // all pages list have same sort of news
+                .size(80.dp, 80.dp)
+                .clip(MaterialTheme.shapes.small),
+            imgUrl = onThisDay.pages[0].thumbnail?.imgUrl // all pages list have same sort of news
         )
 
         Column(
@@ -48,7 +48,7 @@ fun OnThisDaySection(
             )
 
             Spacer(modifier = Modifier.height(10.dp))
-            onThisDay.pages[1].description?.let {
+            onThisDay.pages[0].description?.let {
                 Text(
                     // description text
                     text = it, style = MaterialTheme.typography.bodyMedium,
@@ -57,7 +57,7 @@ fun OnThisDaySection(
             }
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = TimeStampConvertor.formatTimestampToUtc(onThisDay.pages[1].timestamp),
+                text = TimeStampConvertor.formatTimestampToUtc(onThisDay.pages[0].timestamp),
                 style = MaterialTheme.typography.bodySmall
             )
         }

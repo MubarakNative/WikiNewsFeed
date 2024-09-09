@@ -11,6 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.android.Android
+import io.ktor.client.plugins.auth.Auth
+import io.ktor.client.plugins.auth.providers.BearerTokens
+import io.ktor.client.plugins.auth.providers.bearer
 import io.ktor.client.plugins.contentnegotiation.ContentNegotiation
 import io.ktor.client.plugins.logging.ANDROID
 import io.ktor.client.plugins.logging.LogLevel
@@ -30,6 +33,13 @@ object NetworkModule {
     @Provides
     fun provideHttpClient(): HttpClient {
         return HttpClient(Android) {
+            /*install(Auth){
+                bearer {
+                    loadTokens {
+                        BearerTokens("27fa316af3f276c6d5485b4f257ba67d10a9af58","")
+                    }
+                }
+            }*/
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
@@ -38,7 +48,7 @@ object NetworkModule {
             }
             install(Logging) {
                 logger = Logger.ANDROID // logs on LogCat
-                level = LogLevel.ALL
+                level = LogLevel.HEADERS
             }
            /* engine {
                 connectTimeout = 100_000

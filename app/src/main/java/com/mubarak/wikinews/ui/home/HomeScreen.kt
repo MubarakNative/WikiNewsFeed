@@ -35,7 +35,6 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.TopAppBarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.key
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
@@ -45,15 +44,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.Mobile
-import com.mubarak.wikinews.data.sources.remote.dto.NewsArticles
-import com.mubarak.wikinews.data.sources.remote.dto.NewsContentUrl
-import com.mubarak.wikinews.data.sources.remote.dto.Page
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.NewsArticleThumnail
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.PageThumnail
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
 
 @Composable
@@ -110,18 +102,20 @@ fun NewsFeed(
             TfaSection(tfa = newsFeed.todayFeaturedArticle) // tfa Section main
         }
 
-        if (newsFeed.onThisDay.isNotEmpty()) {
-            items(items = newsFeed.onThisDay, key = {
-                it.pages[1].pageId
+        val onThisDayNews = newsFeed.onThisDay ?: emptyList()
+        if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
+            items(items = onThisDayNews, key = {
+                it.pages[0].pageId
             }) {
-                    OnThisDaySection(onThisDay = it, modifier = modifier)
-                    NewsItemDivider()
+                OnThisDaySection(onThisDay = it, modifier = modifier)
+                NewsItemDivider()
             }
         }
 
-        if (newsFeed.news.isNotEmpty()) { // News section contains approx: 4
+        val newsFeedArticle = newsFeed.news ?: emptyList()
+        if (newsFeedArticle.isNotEmpty()) { // News section contains approx: 4
             item {
-                FeedListNewsSection(news = newsFeed.news) // news
+                FeedListNewsSection(news = newsFeedArticle) // news
             }
         }
     }
@@ -146,16 +140,20 @@ fun NewsLoadingScreen(modifier: Modifier = Modifier) {
 @Composable
 fun TfaSection(
     modifier: Modifier = Modifier,
-    tfa: Tfa,
+    tfa: Tfa?,
 ) {
     NewsTitle(
         text = stringResource(id = R.string.today_featured_article),
+        color = MaterialTheme.colorScheme.onTertiaryContainer,
         modifier = Modifier.padding(
             start = 16.dp, top = 16.dp, end = 16.dp
         )
     )
 
-    TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
+    tfa?.let {
+        TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
+    }
+
     NewsItemDivider()
 }
 
@@ -167,7 +165,7 @@ fun FeedListNewsSection(
     Column {
         NewsTitle(
             modifier = modifier,
-            text =  stringResource(id = R.string.today_hot_topic)
+            text = stringResource(id = R.string.today_hot_topic)
         )
 
         Row(
@@ -177,7 +175,9 @@ fun FeedListNewsSection(
                 .padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             for (newsitem in news) {
-                NewsArticlesFeed(news = newsitem.newsArticles[1], modifier = modifier)
+                if (newsitem.newsArticles.isNotEmpty()) {
+                    NewsArticlesFeed(news = newsitem.newsArticles[0], modifier = modifier)
+                }
             }
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -234,7 +234,8 @@ private fun HomeTopAppBarPreview() {
 }
 
 @Preview(
-    uiMode = Configuration.UI_MODE_NIGHT_YES)
+    uiMode = Configuration.UI_MODE_NIGHT_YES
+)
 @Composable
 private fun LoadingScreenPreview() {
     NewsLoadingScreen()
