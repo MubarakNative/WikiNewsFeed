@@ -19,6 +19,7 @@ import io.ktor.client.plugins.logging.ANDROID
 import io.ktor.client.plugins.logging.LogLevel
 import io.ktor.client.plugins.logging.Logger
 import io.ktor.client.plugins.logging.Logging
+import io.ktor.http.headersOf
 import io.ktor.serialization.kotlinx.json.json
 import kotlinx.serialization.json.Json
 import java.net.InetSocketAddress
@@ -33,13 +34,6 @@ object NetworkModule {
     @Provides
     fun provideHttpClient(): HttpClient {
         return HttpClient(Android) {
-            /*install(Auth){
-                bearer {
-                    loadTokens {
-                        BearerTokens("27fa316af3f276c6d5485b4f257ba67d10a9af58","")
-                    }
-                }
-            }*/
             install(ContentNegotiation) {
                 json(Json {
                     ignoreUnknownKeys = true
@@ -48,13 +42,8 @@ object NetworkModule {
             }
             install(Logging) {
                 logger = Logger.ANDROID // logs on LogCat
-                level = LogLevel.HEADERS
+                level = LogLevel.ALL
             }
-           /* engine {
-                connectTimeout = 100_000
-                socketTimeout = 100_000
-                proxy = Proxy(Proxy.Type.HTTP, InetSocketAddress("localhost", 8080))
-            }*/
         }
     }
 

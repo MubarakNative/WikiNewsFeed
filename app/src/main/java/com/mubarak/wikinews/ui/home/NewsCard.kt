@@ -40,7 +40,7 @@ fun NewsTitle(
         color = color,
         maxLines = 2,
         overflow = TextOverflow.Ellipsis,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.W500,
         style = MaterialTheme.typography.titleLarge
     )
 }

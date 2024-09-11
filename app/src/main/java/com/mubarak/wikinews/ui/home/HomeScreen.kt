@@ -1,6 +1,7 @@
 package com.mubarak.wikinews.ui.home
 
 import android.content.res.Configuration
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -44,9 +45,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
+import com.mubarak.wikinews.data.sources.remote.dto.Mobile
+import com.mubarak.wikinews.data.sources.remote.dto.Thumbnail
+import com.mubarak.wikinews.data.sources.remote.dto.Url
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
+import com.mubarak.wikinews.utils.DateFormatter
 
 @Composable
 fun HomeScreen(
@@ -94,6 +99,8 @@ fun NewsFeed(
     modifier: Modifier = Modifier,
     newsFeed: NewsFeed,
 ) {
+
+    Log.d("dateRime", "NewsFeed: ${DateFormatter.formattedDate}")
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(0.dp),
@@ -104,9 +111,7 @@ fun NewsFeed(
 
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
-            items(items = onThisDayNews, key = {
-                it.pages[0].pageId
-            }) {
+            items(items = onThisDayNews) {
                 OnThisDaySection(onThisDay = it, modifier = modifier)
                 NewsItemDivider()
             }
@@ -150,11 +155,13 @@ fun TfaSection(
         )
     )
 
-    tfa?.let {
+   tfa?.let {
         TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
     }
 
     NewsItemDivider()
+    
+    NewsTitle(text = "On This Day Happened",color = MaterialTheme.colorScheme.onTertiaryContainer, modifier = Modifier.padding(16.dp))
 }
 
 
