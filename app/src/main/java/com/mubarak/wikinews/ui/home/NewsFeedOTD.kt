@@ -27,18 +27,11 @@ fun OnThisDaySection(
         modifier = Modifier, verticalAlignment = Alignment.CenterVertically
     ) { // TODO: provide accessibility service to consider this as a whole item
 
-        NewsFeedImage(
-            modifier = Modifier
-                .padding(16.dp)
-                .size(80.dp, 80.dp)
-                .clip(MaterialTheme.shapes.small),
-            imgUrl = onThisDay.pages[0].thumbnail?.imgUrl // all pages list have same sort of news
-        )
 
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
-                .padding(vertical = 10.dp)
+                .padding(10.dp)
                 .weight(1f),
         ) {
 
@@ -61,5 +54,13 @@ fun OnThisDaySection(
                 style = MaterialTheme.typography.bodySmall
             )
         }
+
+        NewsFeedImage(
+            modifier = Modifier
+                .padding(16.dp)
+                .size(80.dp, 80.dp)
+                .clip(MaterialTheme.shapes.small),
+            imgUrl = onThisDay.pages[0].thumbnail?.imgUrl // all pages list have same sort of news
+        )
     }
 }

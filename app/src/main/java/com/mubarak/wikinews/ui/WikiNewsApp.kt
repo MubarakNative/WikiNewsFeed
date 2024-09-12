@@ -19,8 +19,7 @@ fun WikiNewsApp(
     modifier: Modifier = Modifier
 ) {
 
-    var currentDestination by rememberSaveable { mutableStateOf(TopLevelDestination.HOME) }
-
+    var currentDestination by rememberSaveable { mutableStateOf(TopLevelDestination.FEATURED) }
     NavigationSuiteScaffold(
         navigationSuiteItems = {
             TopLevelDestination.entries.forEach {
@@ -38,7 +37,7 @@ fun WikiNewsApp(
         )
     ) {
         when (currentDestination) {
-            TopLevelDestination.HOME -> {
+            TopLevelDestination.FEATURED -> {
                 HomeScreen()
             }
 

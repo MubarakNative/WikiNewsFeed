@@ -30,9 +30,7 @@ fun NewsArticlesFeed(
 ) {
 
     Card(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 6.dp
-        ), modifier = modifier.width(280.dp), shape = MaterialTheme.shapes.medium
+        modifier = modifier.width(280.dp), shape = MaterialTheme.shapes.medium
     ) {
         Column {
 

@@ -111,7 +111,7 @@ fun NewsFeed(
 
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
-            items(items = onThisDayNews) {
+            items(items = onThisDayNews.take(8)) {
                 OnThisDaySection(onThisDay = it, modifier = modifier)
                 NewsItemDivider()
             }
@@ -171,7 +171,7 @@ fun FeedListNewsSection(
 ) {
     Column {
         NewsTitle(
-            modifier = modifier,
+            modifier = modifier.padding(start = 16.dp, top = 16.dp),
             text = stringResource(id = R.string.today_hot_topic)
         )
 
