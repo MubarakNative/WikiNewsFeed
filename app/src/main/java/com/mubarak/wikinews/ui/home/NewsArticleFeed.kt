@@ -23,7 +23,11 @@ import com.mubarak.wikinews.utils.TimeStampConvertor
 
 
 @Composable
-fun NewsArticlesFeed(modifier: Modifier = Modifier, news: NewsArticles,timeStamp: String = TimeStampConvertor.formatTimestampToUtc(news.timestamp)) {
+fun NewsArticlesFeed(
+    modifier: Modifier = Modifier,
+    news: NewsArticles,
+    timeStamp: String = TimeStampConvertor.formatTimestampToUtc(news.timestamp)
+) {
 
     Card(
         elevation = CardDefaults.cardElevation(
@@ -34,24 +38,23 @@ fun NewsArticlesFeed(modifier: Modifier = Modifier, news: NewsArticles,timeStamp
 
             NewsFeedImage(
                 modifier = Modifier
-                    .height(100.dp)
+                    .height(160.dp)
                     .fillMaxWidth(),
                 imgUrl = news.thumbnail?.imgUrl
             )
 
             Column(modifier = Modifier.padding(16.dp)) {
-                Text(
-                    text = news.normalizedTitle,
-                    style = MaterialTheme.typography.headlineSmall,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis,
+                NewsTitle(
+                    text = news.description,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))
                 Text(
-                    text = news.description,
+                    text = news.longDescription,
                     style = MaterialTheme.typography.bodyMedium,
-                    modifier = Modifier.padding(bottom = 4.dp)
+                    maxLines = 3,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier.padding(bottom = 8.dp)
                 )
                 Text(
                     text = timeStamp,
