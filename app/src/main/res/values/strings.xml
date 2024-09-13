@@ -7,4 +7,6 @@
     <string name="today_featured_article">Today featured article</string>
     <string name="today_hot_topic">Today hot topics</string>
     <string name="featured">Featured</string>
+    <string name="most_read">Most read articles</string>
+    <string name="onThis_day_happened">On This Day Happened</string>
 </resources>

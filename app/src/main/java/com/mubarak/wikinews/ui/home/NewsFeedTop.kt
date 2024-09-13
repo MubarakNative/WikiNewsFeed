@@ -9,9 +9,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
 import com.mubarak.wikinews.utils.TimeStampConvertor
@@ -22,6 +22,9 @@ fun TodayFeaturedArticle(
     tfa: Tfa
 ) {
     val typography = MaterialTheme.typography
+    val timeStamp = remember {
+        TimeStampConvertor.formatTimestampToUtc(tfa.timestamp)
+    }
 
     Column(
         modifier = modifier
@@ -29,13 +32,13 @@ fun TodayFeaturedArticle(
             .padding(16.dp)
     ) {
         val imageModifier = Modifier
-            .heightIn(min = 180.dp)
+            .heightIn(min = 180.dp, max = 200.dp)
             .fillMaxWidth()
             .clip(shape = MaterialTheme.shapes.large)
 
         NewsFeedImage(
             modifier = imageModifier,
-            imgUrl = tfa.thumbnail.imgUrl
+            imgUrl = tfa.thumbnail?.imgUrl
         )
 
         Spacer(modifier = Modifier.height(16.dp))
@@ -45,7 +48,7 @@ fun TodayFeaturedArticle(
             modifier = Modifier.padding(bottom = 6.dp)
         )
         Text(
-            text = TimeStampConvertor.formatTimestampToUtc(tfa.timestamp),
+            text = timeStamp,
             style = typography.bodySmall
         )
 

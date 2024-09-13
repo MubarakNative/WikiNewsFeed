@@ -4,10 +4,7 @@ plugins {
     alias(libs.plugins.kotlinSymbolProcessing)
     alias(libs.plugins.daggerHilt)
     alias(libs.plugins.compose.compiler)
-   // kotlin("plugin.serialization") version "2.0.20"
-    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.10"
-
-
+    id("org.jetbrains.kotlin.plugin.serialization") version "2.0.20"
 }
 
 android {
@@ -111,9 +108,6 @@ dependencies {
 
     // Design System
     implementation(libs.androidx.material3)
-
-    // Google Fonts
-    implementation(libs.androidx.ui.text.google.fonts)
 
     // Debug Features
     implementation(libs.androidx.ui.tooling.preview)

@@ -1,7 +1,6 @@
 package com.mubarak.wikinews.ui.home
 
 import android.content.res.Configuration
-import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
@@ -13,7 +12,9 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
@@ -36,8 +37,11 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.TopAppBarState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
@@ -45,13 +49,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.Mobile
-import com.mubarak.wikinews.data.sources.remote.dto.Thumbnail
-import com.mubarak.wikinews.data.sources.remote.dto.Url
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
+import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.article.Article
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
+import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
-import com.mubarak.wikinews.utils.DateFormatter
+import com.mubarak.wikinews.utils.TimeStampConvertor
 
 @Composable
 fun HomeScreen(
@@ -76,7 +79,8 @@ fun HomeScreen(
     }) {
         when (uiState) {
             HomeUiState.Error -> {
-                Toast.makeText(context, "Some sort of error Happened!", Toast.LENGTH_SHORT).show()
+                // TODO: show error screen
+                Toast.makeText(context, "Some sort of error Happened!\n Check Internet Connection", Toast.LENGTH_SHORT).show()
             }
 
             HomeUiState.Loading -> {
@@ -99,8 +103,6 @@ fun NewsFeed(
     modifier: Modifier = Modifier,
     newsFeed: NewsFeed,
 ) {
-
-    Log.d("dateRime", "NewsFeed: ${DateFormatter.formattedDate}")
     LazyColumn(
         modifier = modifier,
         contentPadding = PaddingValues(0.dp),
@@ -111,9 +113,8 @@ fun NewsFeed(
 
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
-            items(items = onThisDayNews.take(8)) {
-                OnThisDaySection(onThisDay = it, modifier = modifier)
-                NewsItemDivider()
+            item {
+                OnThisDaySection(onThisDay = onThisDayNews)
             }
         }
 
@@ -123,6 +124,67 @@ fun NewsFeed(
                 FeedListNewsSection(news = newsFeedArticle) // news
             }
         }
+
+        val mostReadArticles = newsFeed.mostRead?.articles ?: emptyList()
+        if (mostReadArticles.isNotEmpty()) {
+            items(mostReadArticles.take(8)){
+                MostReadArticleSection(article = it)
+            }
+        }
+    }
+}
+
+@Composable
+fun MostReadArticleSection(
+    modifier: Modifier = Modifier,
+    article:Article
+) {
+        MostReadArticles(article = article, modifier = modifier)
+        NewsItemDivider()
+}
+
+@Composable
+fun MostReadArticles(
+    modifier: Modifier = Modifier,
+    article: Article
+) {
+
+    val timeStamp = remember(article.timestamp) {
+        TimeStampConvertor.formatTimestampToUtc(article.timestamp)
+    }
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+    ) {
+        val imgModifier = Modifier
+            .heightIn(min = 180.dp, max = 200.dp)
+            .fillMaxWidth()
+            .clip(shape = MaterialTheme.shapes.small)
+            .blur(90.dp) // change it to appropriate
+
+        NewsFeedImage(
+            modifier = imgModifier,
+            imgUrl = article.thumbnail?.imgUrl
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+
+        NewsTitle(
+            text = article.longDescription,
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            text = timeStamp,
+            style = MaterialTheme.typography.bodySmall
+        )
+    }
+}
+
+@Composable
+fun OnThisDaySection(modifier: Modifier = Modifier, onThisDay: List<Onthisday>) {
+    for (onThisDayItem in onThisDay) {
+        OnThisDaySection(onThisDay = onThisDayItem, modifier = modifier)
+        NewsItemDivider()
     }
 }
 
@@ -150,18 +212,22 @@ fun TfaSection(
     NewsTitle(
         text = stringResource(id = R.string.today_featured_article),
         color = MaterialTheme.colorScheme.onTertiaryContainer,
-        modifier = Modifier.padding(
+        modifier = modifier.padding(
             start = 16.dp, top = 16.dp, end = 16.dp
         )
     )
 
-   tfa?.let {
+    tfa?.let {
         TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
     }
 
     NewsItemDivider()
-    
-    NewsTitle(text = "On This Day Happened",color = MaterialTheme.colorScheme.onTertiaryContainer, modifier = Modifier.padding(16.dp))
+
+    NewsTitle(
+        text = stringResource(id = R.string.onThis_day_happened),
+        color = MaterialTheme.colorScheme.onTertiaryContainer,
+        modifier = Modifier.padding(16.dp)
+    )
 }
 
 
@@ -181,21 +247,27 @@ fun FeedListNewsSection(
                 .height(IntrinsicSize.Max)
                 .padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            for (newsitem in news) {
-                if (newsitem.newsArticles.isNotEmpty()) {
-                    NewsArticlesFeed(news = newsitem.newsArticles[0], modifier = modifier)
+            for (newsItem in news) {
+                if (newsItem.newsArticles.isNotEmpty()) {
+                    NewsArticlesFeed(news = newsItem.newsArticles[0], modifier = modifier)
                 }
             }
         }
-        Spacer(modifier = Modifier.height(16.dp))
-        NewsItemDivider()
+
+        NewsTitle(
+            text = stringResource(id = R.string.most_read),
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            modifier = Modifier.padding(
+                start = 16.dp, top = 16.dp, end = 16.dp
+            )
+        )
     }
 }
 
 @Composable
 fun NewsItemDivider(modifier: Modifier = Modifier) {
     HorizontalDivider(
-        modifier = Modifier.padding(horizontal = 14.dp),
+        modifier = modifier.padding(horizontal = 14.dp),
         color = MaterialTheme.colorScheme.onSurface.copy(alpha = 0.07f)
     )
 }

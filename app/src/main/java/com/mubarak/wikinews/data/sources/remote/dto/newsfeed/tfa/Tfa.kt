@@ -1,6 +1,5 @@
 package com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa
 
-
 import com.mubarak.wikinews.data.sources.remote.dto.Thumbnail
 import com.mubarak.wikinews.data.sources.remote.dto.Url
 import kotlinx.serialization.SerialName
@@ -21,7 +20,7 @@ data class Tfa( // today featured content
     val normalizedTitle: String,
 
     @SerialName("thumbnail")
-    val thumbnail: Thumbnail,
+    val thumbnail: Thumbnail?= null,
 
     @SerialName("tid")
     val tid: String,

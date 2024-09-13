@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -23,6 +24,10 @@ fun OnThisDaySection(
     modifier: Modifier = Modifier,
     onThisDay: Onthisday
 ) {
+
+    val timeStamp = remember(onThisDay.pages[0].timestamp) {
+        TimeStampConvertor.formatTimestampToUtc(onThisDay.pages[0].timestamp)
+    }
     Row(
         modifier = Modifier, verticalAlignment = Alignment.CenterVertically
     ) { // TODO: provide accessibility service to consider this as a whole item
@@ -50,7 +55,7 @@ fun OnThisDaySection(
             }
             Spacer(modifier = Modifier.height(6.dp))
             Text(
-                text = TimeStampConvertor.formatTimestampToUtc(onThisDay.pages[0].timestamp),
+                text = timeStamp,
                 style = MaterialTheme.typography.bodySmall
             )
         }

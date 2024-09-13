@@ -18,7 +18,6 @@ import com.mubarak.wikinews.ui.home.HomeScreen
 fun WikiNewsApp(
     modifier: Modifier = Modifier
 ) {
-
     var currentDestination by rememberSaveable { mutableStateOf(TopLevelDestination.FEATURED) }
     NavigationSuiteScaffold(
         navigationSuiteItems = {

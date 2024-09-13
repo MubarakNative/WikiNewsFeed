@@ -7,10 +7,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -25,10 +25,12 @@ import com.mubarak.wikinews.utils.TimeStampConvertor
 @Composable
 fun NewsArticlesFeed(
     modifier: Modifier = Modifier,
-    news: NewsArticles,
-    timeStamp: String = TimeStampConvertor.formatTimestampToUtc(news.timestamp)
+    news: NewsArticles
 ) {
 
+    val timeStamp: String = remember(news.timestamp) {
+        TimeStampConvertor.formatTimestampToUtc(news.timestamp)
+    }
     Card(
         modifier = modifier.width(280.dp), shape = MaterialTheme.shapes.medium
     ) {
@@ -78,5 +80,5 @@ val fakeNewsArticles: NewsArticles = NewsArticles(
 @Preview
 @Composable
 private fun NewsArticlePreview() {
-    NewsArticlesFeed(news = fakeNewsArticles, timeStamp = "September 9, 2024")
+    NewsArticlesFeed(news = fakeNewsArticles)
 }
