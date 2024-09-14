@@ -114,7 +114,7 @@ fun NewsFeed(
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
             item {
-                OnThisDaySection(onThisDay = onThisDayNews)
+                OnThisDaySection(onThisDay = onThisDayNews.take(6))
             }
         }
 
