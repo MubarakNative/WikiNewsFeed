@@ -59,23 +59,25 @@ import com.mubarak.wikinews.utils.TimeStampConvertor
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onSearchActionClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.newsUiState
-    HomeScreen(uiState = uiState)
+    HomeScreen(uiState = uiState, onSearchActionClick = onSearchActionClick)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
+    onSearchActionClick:() -> Unit,
     uiState: HomeUiState
 ) {
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
     Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
-        HomeTopAppBar(scrollBehavior = scrollBehavior)
+        HomeTopAppBar(scrollBehavior = scrollBehavior, searchActionClick = onSearchActionClick)
     }) {
         when (uiState) {
             HomeUiState.Error -> {
@@ -296,7 +298,7 @@ fun HomeTopAppBar(
         actions = {
             IconButton(onClick = searchActionClick) {
                 Icon(
-                    imageVector = Icons.Outlined.Search, contentDescription = null
+                    imageVector = Icons.Outlined.Search, contentDescription = stringResource(id = R.string.search)
                 )
             }
         },

@@ -11,7 +11,7 @@ data class NewsArticles(
     val contentUrls: NewsContentUrl,
 
     @SerialName("description")
-    val description: String,
+    val description: String?= null,
 
     @SerialName("extract")
     val longDescription: String,
