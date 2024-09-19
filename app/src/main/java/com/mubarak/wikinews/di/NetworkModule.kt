@@ -42,7 +42,7 @@ object NetworkModule {
             }
             install(Logging) {
                 logger = Logger.ANDROID // logs on LogCat
-                level = LogLevel.ALL
+              //  level = LogLevel.ALL
             }
         }
     }

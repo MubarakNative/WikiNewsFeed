@@ -1,7 +1,7 @@
-# 📰 NewsApp: A Modern Android News Client
+# 📰 WikiNews: A Modern Android News Client
 
 ## Overview
-**NewsApp** is a sleek and modern Android news application built with the latest technologies.
+**WikiNews** is a sleek and modern Android news application built with the latest technologies.
 
 ## Technologies Used
 - 🎨 **Jetpack Compose**: A modern UI framework for building native Android applications.
