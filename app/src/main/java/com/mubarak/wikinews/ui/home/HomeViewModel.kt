@@ -1,14 +1,15 @@
 package com.mubarak.wikinews.ui.home
 
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mubarak.wikinews.data.sources.NewsRepository
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import io.ktor.utils.io.errors.IOException
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,23 +24,22 @@ class HomeViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
 
-    var newsUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
-        private set
+    private var _newsUiState = MutableStateFlow<HomeUiState>(HomeUiState.Loading)
+    val newsUiState = _newsUiState.onStart { getNewsFeed() }
+        .stateIn(
+            viewModelScope,
+            SharingStarted.WhileSubscribed(5_000),
+            HomeUiState.Loading)
 
-    init {
-        getNewsFeed()
-    }
 
     private fun getNewsFeed() {
         viewModelScope.launch {
-            newsUiState = HomeUiState.Loading
-            newsUiState = try {
+            _newsUiState.value = HomeUiState.Loading
+            _newsUiState.value = try {
                 HomeUiState.Success(newsRepository.getNewsFeed())
-            }catch (e:IOException){
+            } catch (e: IOException) {
                 HomeUiState.Error
-            }/*catch (e:HttpException){
-                HomeUiState.Error
-            }*/
+            }
         }
     }
 

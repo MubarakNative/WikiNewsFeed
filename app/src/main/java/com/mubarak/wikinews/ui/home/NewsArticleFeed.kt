@@ -45,7 +45,7 @@ fun NewsArticlesFeed(
 
             Column(modifier = Modifier.padding(16.dp)) {
                 NewsTitle(
-                    text = news.description,
+                    text = news.description ?: news.normalizedTitle,
                     modifier = Modifier.padding(bottom = 4.dp)
                 )
                 Spacer(modifier = Modifier.weight(1f))

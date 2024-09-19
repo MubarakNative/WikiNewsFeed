@@ -6,48 +6,43 @@ import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteDefaul
 import androidx.compose.material3.adaptive.navigationsuite.NavigationSuiteScaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
-import com.mubarak.wikinews.ui.home.HomeScreen
+import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavDestination.Companion.hierarchy
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.currentBackStackEntryAsState
+import androidx.navigation.compose.rememberNavController
 
 @Composable
 fun WikiNewsApp(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    navController: NavHostController = rememberNavController()
 ) {
-    var currentDestination by rememberSaveable { mutableStateOf(TopLevelDestination.FEATURED) }
+
+    val navBackStackEntry by navController.currentBackStackEntryAsState()
+    val currentDestination = navBackStackEntry?.destination
+
     NavigationSuiteScaffold(
         navigationSuiteItems = {
-            TopLevelDestination.entries.forEach {
-                item(icon = {
+            TopLevelDestination.forEach { topLevelRoute ->
+                item(selected = currentDestination?.hierarchy?.any {
+                    it.hasRoute(route = topLevelRoute.route::class)
+                } == true,
+                    label = { Text(text = stringResource(id = topLevelRoute.label))},
+                    icon = {
                     Icon(
-                        it.icon, contentDescription = stringResource(it.contentDescription)
+                        imageVector = topLevelRoute.icon,
+                        contentDescription = topLevelRoute.route::class.simpleName
                     )
                 },
-                    label = { Text(stringResource(it.label)) },
-                    selected = it == currentDestination,
-                    onClick = { currentDestination = it })
+                    onClick = { navController.navigate(route = topLevelRoute.route) })
             }
         }, navigationSuiteColors = NavigationSuiteDefaults.colors(
             navigationBarContainerColor = Color.Transparent,
         )
     ) {
-        when (currentDestination) {
-            TopLevelDestination.FEATURED -> {
-                HomeScreen()
-            }
-
-            TopLevelDestination.BREAKING -> {
-            }
-
-            TopLevelDestination.BOOKMARKS -> {
-            }
-
-            TopLevelDestination.SETTINGS -> {
-            }
-        }
+        WikiNewsNavGraph(navController = navController)
     }
 }
