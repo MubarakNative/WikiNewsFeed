@@ -35,8 +35,13 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.TopAppBarState
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.PullToRefreshState
+import androidx.compose.material3.pulltorefresh.pullToRefresh
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -48,12 +53,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mubarak.wikinews.R
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.article.Article
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
+import com.mubarak.wikinews.ui.Bookmarks
 import com.mubarak.wikinews.utils.TimeStampConvertor
 
 @Composable
@@ -62,7 +69,7 @@ fun HomeScreen(
     onSearchActionClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val uiState = viewModel.newsUiState
+    val uiState by viewModel.newsUiState.collectAsStateWithLifecycle()
     HomeScreen(uiState = uiState, onSearchActionClick = onSearchActionClick)
 }
 
@@ -70,7 +77,7 @@ fun HomeScreen(
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
-    onSearchActionClick:() -> Unit,
+    onSearchActionClick: () -> Unit,
     uiState: HomeUiState
 ) {
     val context = LocalContext.current
@@ -82,7 +89,11 @@ fun HomeScreen(
         when (uiState) {
             HomeUiState.Error -> {
                 // TODO: show error screen
-                Toast.makeText(context, "Some sort of error Happened!\n Check Internet Connection", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    context,
+                    "Some sort of error Happened!\n Check Internet Connection",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
 
             HomeUiState.Loading -> {
@@ -116,7 +127,7 @@ fun NewsFeed(
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
             item {
-                OnThisDaySection(onThisDay = onThisDayNews.take(6))
+                OnThisDaySection(onThisDay = onThisDayNews)
             }
         }
 
@@ -129,7 +140,7 @@ fun NewsFeed(
 
         val mostReadArticles = newsFeed.mostRead?.articles ?: emptyList()
         if (mostReadArticles.isNotEmpty()) {
-            items(mostReadArticles.take(8)){
+            items(mostReadArticles) {
                 MostReadArticleSection(article = it)
             }
         }
@@ -139,10 +150,10 @@ fun NewsFeed(
 @Composable
 fun MostReadArticleSection(
     modifier: Modifier = Modifier,
-    article:Article
+    article: Article
 ) {
-        MostReadArticles(article = article, modifier = modifier)
-        NewsItemDivider()
+    MostReadArticles(article = article, modifier = modifier)
+    NewsItemDivider()
 }
 
 @Composable
@@ -163,7 +174,6 @@ fun MostReadArticles(
             .heightIn(min = 180.dp, max = 200.dp)
             .fillMaxWidth()
             .clip(shape = MaterialTheme.shapes.small)
-            .blur(90.dp) // change it to appropriate
 
         NewsFeedImage(
             modifier = imgModifier,
@@ -298,7 +308,8 @@ fun HomeTopAppBar(
         actions = {
             IconButton(onClick = searchActionClick) {
                 Icon(
-                    imageVector = Icons.Outlined.Search, contentDescription = stringResource(id = R.string.search)
+                    imageVector = Icons.Outlined.Search,
+                    contentDescription = stringResource(id = R.string.search)
                 )
             }
         },

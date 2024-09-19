@@ -8,21 +8,22 @@ import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
 import io.ktor.http.URLProtocol
+import io.ktor.http.appendEncodedPathSegments
 import io.ktor.http.path
 
 class DefaultNewsFeedApi(
     private val httpClient: HttpClient
 ) : NewsFeedApi {
     override suspend fun getNewsFeed(): NewsFeed {
-       return httpClient.use {
-            it.get{ // GET method
-               url { // configure the URL components separately
-                   protocol = URLProtocol.HTTPS
-                   host = "api.wikimedia.org"
-                   path("feed/v1/wikipedia/en/featured/${DateFormatter.formattedDate}") // TODO: replace with current dynamic date
-               }
-                header("Authorization","Bearer $ACCESS_TOKEN")
+        val currentDate = DateFormatter.formattedDate
+       return httpClient.get {
+            url{
+                appendEncodedPathSegments("feed","v1","wikipedia","en","featured",currentDate)
+                protocol = URLProtocol.HTTPS
+                host = "api.wikimedia.org"
             }
+            header("Authorization","Bearer $ACCESS_TOKEN")
         }.body()
     }
+
 }
