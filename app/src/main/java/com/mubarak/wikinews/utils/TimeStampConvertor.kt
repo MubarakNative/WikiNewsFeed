@@ -12,7 +12,6 @@ object TimeStampConvertor {
         // Define the formatter for the desired format
         val formatter = DateTimeFormatter.ofPattern("MMMM d, yyyy")
             .withZone(ZoneId.of("UTC"))
-        //,'at 'h:mm:ss a
 
         // Format the instant to the desired format
         return formatter.format(instant)
