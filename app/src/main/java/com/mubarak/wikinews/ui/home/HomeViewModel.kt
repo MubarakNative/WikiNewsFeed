@@ -39,8 +39,14 @@ class HomeViewModel @Inject constructor(
                 HomeUiState.Success(newsRepository.getNewsFeed())
             } catch (e: IOException) {
                 HomeUiState.Error
+            } catch (e:Exception){
+                HomeUiState.Error
             }
         }
+    }
+
+    fun retryNews(){
+        getNewsFeed()
     }
 
 }

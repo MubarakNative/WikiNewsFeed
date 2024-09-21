@@ -42,7 +42,12 @@ object NetworkModule {
             }
             install(Logging) {
                 logger = Logger.ANDROID // logs on LogCat
-              //  level = LogLevel.ALL
+                level = LogLevel.ALL
+            }
+
+            engine {
+                connectTimeout = 100_000
+                socketTimeout = 100_000
             }
         }
     }
