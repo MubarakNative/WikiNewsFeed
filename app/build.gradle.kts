@@ -83,6 +83,10 @@ dependencies {
     // AAC
     implementation(libs.androidx.lifecycle.viewmodel.compose)
 
+    // Paging 3
+    implementation(libs.androidx.paging.runtime)
+    implementation(libs.androidx.paging.compose)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
