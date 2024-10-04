@@ -46,6 +46,7 @@ For testing and prototyping, you can use a **personal API token** tied to your W
 For more information, refer to the [Authentication Page](https://api.wikimedia.org/wiki/Authentication).
 
 ## Features
+- Build using Jetpack compose
 - 🗞️ News article retrieval from WikiNews API.
 - 🖼️ Display of news articles with images and summaries.
 - 🧑‍💻 Clean and modern UI built with Jetpack Compose.
