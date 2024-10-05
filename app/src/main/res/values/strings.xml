@@ -10,4 +10,5 @@
     <string name="most_read">Most read articles</string>
     <string name="onThis_day_happened">On This Day Happened</string>
     <string name="search">Search</string>
+    <string name="error_msg">Some sort of error Happened!\\n Check Internet Connection</string>
 </resources>

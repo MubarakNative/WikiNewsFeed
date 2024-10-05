@@ -2,6 +2,7 @@ package com.mubarak.wikinews.ui
 
 import androidx.annotation.StringRes
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.BarChart
 import androidx.compose.material.icons.filled.Bookmarks
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
@@ -42,7 +43,7 @@ data class TopLevelRoute<T : Any>(val route: T,@StringRes val label:Int, val ico
 
 val TopLevelDestination = listOf(
     TopLevelRoute(route = Featured, label = R.string.featured, Icons.Default.Star),
-    TopLevelRoute(route = Breaking,label = R.string.breaking, Icons.Default.Person),
+    TopLevelRoute(route = Breaking,label = R.string.breaking, Icons.Default.BarChart),
     TopLevelRoute(route = Bookmarks, label = R.string.bookmarks,Icons.Default.Bookmarks),
     TopLevelRoute(route = Settings,label = R.string.settings, Icons.Default.Settings),
 )

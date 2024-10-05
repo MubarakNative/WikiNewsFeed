@@ -20,9 +20,6 @@ fun WikiNewsNavGraph(
     navController: NavHostController = rememberNavController()
 ) {
 
-    val navAction = remember(navController) {
-        WikiNewsNavigation(navController)
-    }
     NavHost(
         modifier = modifier,
         navController = navController,
@@ -30,7 +27,8 @@ fun WikiNewsNavGraph(
     ){
         composable<Featured> {
             HomeScreen(onSearchActionClick = {
-               navAction.navigateToSearch
+                navController.navigate(Search)
+            //   navAction.navigateToSearch
             })
         }
 
