@@ -91,7 +91,7 @@ fun HomeScreen(
                 // TODO: show error screen
                 Toast.makeText(
                     context,
-                    "Some sort of error Happened!\n Check Internet Connection",
+                    stringResource(id = R.string.error_msg),
                     Toast.LENGTH_SHORT
                 ).show()
             }
