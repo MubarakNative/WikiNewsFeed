@@ -1,10 +1,7 @@
 package com.mubarak.wikinews.ui
 
-import android.widget.Toast
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -28,7 +25,6 @@ fun WikiNewsNavGraph(
         composable<Featured> {
             HomeScreen(onSearchActionClick = {
                 navController.navigate(Search)
-            //   navAction.navigateToSearch
             })
         }
 
