@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun BreakingNewsScreen(modifier: Modifier = Modifier) {
+fun BreakingNewsRoute(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
         Text(text = "Breaking News")
     }
