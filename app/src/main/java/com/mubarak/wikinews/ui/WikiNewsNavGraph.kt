@@ -6,10 +6,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mubarak.wikinews.ui.bookmarks.BookmarksScreen
-import com.mubarak.wikinews.ui.breaking.BreakingNewsScreen
-import com.mubarak.wikinews.ui.home.HomeScreen
-import com.mubarak.wikinews.ui.search.SearchScreen
+import com.mubarak.wikinews.ui.bookmarks.BookmarksRoute
+import com.mubarak.wikinews.ui.breaking.BreakingNewsRoute
+import com.mubarak.wikinews.ui.home.HomeRoute
+import com.mubarak.wikinews.ui.search.SearchRoute
 
 @Composable
 fun WikiNewsNavGraph(
@@ -23,25 +23,25 @@ fun WikiNewsNavGraph(
         startDestination = Featured
     ){
         composable<Featured> {
-            HomeScreen(onSearchActionClick = {
+            HomeRoute(onSearchActionClick = {
                 navController.navigate(Search)
             })
         }
 
         composable<Breaking> {
-            BreakingNewsScreen()
+            BreakingNewsRoute()
         }
 
         composable<Bookmarks>{
-            BookmarksScreen()
+            BookmarksRoute()
         }
 
         composable<Settings> {
-            SettingsScreen()
+            SettingsRoute()
         }
 
         composable<Search> {
-            SearchScreen()
+            SearchRoute()
         }
     }
 }

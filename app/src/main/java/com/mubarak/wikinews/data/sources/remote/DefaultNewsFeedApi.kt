@@ -1,6 +1,7 @@
 package com.mubarak.wikinews.data.sources.remote
 
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
+import com.mubarak.wikinews.data.sources.remote.dto.search.SearchNews
 import com.mubarak.wikinews.utils.AppConstant.ACCESS_TOKEN
 import com.mubarak.wikinews.utils.DateFormatter
 import io.ktor.client.HttpClient
@@ -19,6 +20,17 @@ class DefaultNewsFeedApi(
        return httpClient.get {
             url{
                 appendEncodedPathSegments("feed","v1","wikipedia","en","featured",currentDate)
+                protocol = URLProtocol.HTTPS
+                host = "api.wikimedia.org"
+            }
+            header("Authorization","Bearer $ACCESS_TOKEN")
+        }.body()
+    }
+
+    override suspend fun getSearchNews(): SearchNews {
+        return httpClient.get {
+            url {
+                appendEncodedPathSegments("core","v1","wikipedia","en","search","title")
                 protocol = URLProtocol.HTTPS
                 host = "api.wikimedia.org"
             }

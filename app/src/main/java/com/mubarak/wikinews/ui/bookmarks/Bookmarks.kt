@@ -8,7 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun BookmarksScreen(modifier: Modifier = Modifier) {
+fun BookmarksRoute(modifier: Modifier = Modifier) {
     Box(modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center){
         Text(text = "Bookmarks News")
     }
