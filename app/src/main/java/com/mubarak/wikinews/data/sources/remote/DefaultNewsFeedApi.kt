@@ -8,9 +8,9 @@ import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
 import io.ktor.client.request.header
+import io.ktor.client.request.parameter
 import io.ktor.http.URLProtocol
 import io.ktor.http.appendEncodedPathSegments
-import io.ktor.http.path
 
 class DefaultNewsFeedApi(
     private val httpClient: HttpClient
@@ -27,14 +27,17 @@ class DefaultNewsFeedApi(
         }.body()
     }
 
-    override suspend fun getSearchNews(): SearchNews {
+    override suspend fun getSearchNews(searchQuery:String): SearchNews {
         return httpClient.get {
-            url {
-                appendEncodedPathSegments("core","v1","wikipedia","en","search","title")
-                protocol = URLProtocol.HTTPS
-                host = "api.wikimedia.org"
-            }
-            header("Authorization","Bearer $ACCESS_TOKEN")
+            if (searchQuery.isNotEmpty()){
+                url {
+                    appendEncodedPathSegments("core","v1","wikipedia","en","search","title")
+                    protocol = URLProtocol.HTTPS
+                    host = "api.wikimedia.org"
+                }
+                parameter("q",searchQuery)
+                parameter("limit",20) // 20 items per pagination
+           }
         }.body()
     }
 
