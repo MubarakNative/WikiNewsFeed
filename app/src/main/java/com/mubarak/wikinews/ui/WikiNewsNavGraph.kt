@@ -1,7 +1,10 @@
 package com.mubarak.wikinews.ui
 
+import android.os.Build
+import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,6 +14,7 @@ import com.mubarak.wikinews.ui.breaking.BreakingNewsRoute
 import com.mubarak.wikinews.ui.home.HomeRoute
 import com.mubarak.wikinews.ui.search.SearchRoute
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun WikiNewsNavGraph(
     modifier: Modifier = Modifier,
@@ -32,7 +36,7 @@ fun WikiNewsNavGraph(
             BreakingNewsRoute()
         }
 
-        composable<Bookmarks>{
+        composable<Bookmarks> {
             BookmarksRoute()
         }
 
@@ -41,7 +45,7 @@ fun WikiNewsNavGraph(
         }
 
         composable<Search> {
-            SearchRoute()
+            SearchRoute(onBackClick = { navController.popBackStack() })
         }
     }
 }

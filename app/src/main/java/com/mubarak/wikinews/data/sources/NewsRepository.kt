@@ -5,5 +5,5 @@ import com.mubarak.wikinews.data.sources.remote.dto.search.SearchNews
 
 interface NewsRepository {
     suspend fun getNewsFeed(): NewsFeed
-    suspend fun getSearchNews(): SearchNews
+   suspend fun getSearchNews(searchQuery:String): SearchNews
 }

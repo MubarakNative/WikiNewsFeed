@@ -12,11 +12,12 @@ class NewsRemoteDataSource(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) {
     suspend fun getNewsFeed(): NewsFeed =
-        withContext(dispatcher){
+        withContext(dispatcher) {
             newsFeedApi.getNewsFeed()
         }
-    suspend fun getSearchNews(): SearchNews =
-        withContext(dispatcher){
-            newsFeedApi.getSearchNews()
-        }
+
+    suspend fun getSearchNews(searchQuery: String): SearchNews =
+        newsFeedApi.getSearchNews(searchQuery)
+
 }
+

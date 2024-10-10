@@ -1,7 +1,9 @@
 package com.mubarak.wikinews.ui.home
 
 import android.content.res.Configuration
+import android.os.Build
 import android.widget.Toast
+import androidx.annotation.RequiresExtension
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -67,15 +69,19 @@ import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
 import com.mubarak.wikinews.ui.Bookmarks
 import com.mubarak.wikinews.utils.TimeStampConvertor
+import kotlinx.coroutines.ExperimentalCoroutinesApi
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
 
+@RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
 fun HomeRoute(
     modifier: Modifier = Modifier,
     onSearchActionClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    val uiState by viewModel.newsUiState.collectAsStateWithLifecycle()
-    HomeScreen(uiState = uiState, onSearchActionClick = onSearchActionClick)
+    HomeScreen(modifier = modifier,uiState = viewModel.newsUiState, onSearchActionClick = onSearchActionClick)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -88,7 +94,7 @@ fun HomeScreen(
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
 
-    Scaffold(modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
+    Scaffold(modifier = modifier.nestedScroll(scrollBehavior.nestedScrollConnection), topBar = {
         HomeTopAppBar(scrollBehavior = scrollBehavior, searchActionClick = onSearchActionClick)
     }) {
         when (uiState) {
