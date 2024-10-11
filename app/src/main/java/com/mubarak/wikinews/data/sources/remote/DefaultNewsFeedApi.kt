@@ -17,27 +17,28 @@ class DefaultNewsFeedApi(
 ) : NewsFeedApi {
     override suspend fun getNewsFeed(): NewsFeed {
         val currentDate = DateFormatter.formattedDate
-       return httpClient.get {
-            url{
-                appendEncodedPathSegments("feed","v1","wikipedia","en","featured",currentDate)
+        return httpClient.get {
+            url {
+                appendEncodedPathSegments("feed", "v1", "wikipedia", "en", "featured", currentDate)
                 protocol = URLProtocol.HTTPS
                 host = "api.wikimedia.org"
             }
-            header("Authorization","Bearer $ACCESS_TOKEN")
+            header("Authorization", "Bearer $ACCESS_TOKEN")
         }.body()
+
     }
 
-    override suspend fun getSearchNews(searchQuery:String): SearchNews {
+    override suspend fun getSearchNews(searchQuery: String): SearchNews {
         return httpClient.get {
-            if (searchQuery.isNotEmpty()){
+            if (searchQuery.isNotEmpty()) {
                 url {
-                    appendEncodedPathSegments("core","v1","wikipedia","en","search","title")
+                    appendEncodedPathSegments("core", "v1", "wikipedia", "en", "search", "title")
                     protocol = URLProtocol.HTTPS
                     host = "api.wikimedia.org"
                 }
-                parameter("q",searchQuery)
-                parameter("limit",20) // 20 items per pagination
-           }
+                parameter("q", searchQuery)
+                parameter("limit", 20) // 20 items per pagination
+            }
         }.body()
     }
 

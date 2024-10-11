@@ -94,6 +94,11 @@ dependencies {
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
 
+    // Room (Local Database)
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
+
     // Ktor-Client
     implementation(libs.ktor.client.core)
     implementation(libs.ktor.client.android) // Engine
@@ -106,6 +111,9 @@ dependencies {
 
     // Coil Compose
     implementation(libs.coil.compose)
+
+    // Browser
+    implementation(libs.androidx.browser)
 
     // KotlinX Serialization
     implementation(libs.kotlinx.serialization.json)

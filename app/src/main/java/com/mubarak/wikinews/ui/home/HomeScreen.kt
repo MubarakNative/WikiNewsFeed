@@ -81,7 +81,8 @@ fun HomeRoute(
     onSearchActionClick: () -> Unit,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
-    HomeScreen(modifier = modifier,uiState = viewModel.newsUiState, onSearchActionClick = onSearchActionClick)
+    val newsUiState = viewModel.newsUiState
+    HomeScreen(modifier = modifier,uiState = newsUiState, onSearchActionClick = onSearchActionClick)
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
