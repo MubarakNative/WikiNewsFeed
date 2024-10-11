@@ -11,8 +11,8 @@ import androidx.lifecycle.viewModelScope
 import com.mubarak.wikinews.data.sources.NewsRepository
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import dagger.hilt.android.lifecycle.HiltViewModel
-import io.ktor.utils.io.errors.IOException
 import kotlinx.coroutines.launch
+import java.io.IOException
 import javax.inject.Inject
 
 sealed interface HomeUiState {
