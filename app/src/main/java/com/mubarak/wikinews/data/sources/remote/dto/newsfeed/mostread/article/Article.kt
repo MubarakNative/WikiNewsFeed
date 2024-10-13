@@ -20,7 +20,10 @@ data class Article(
     val normalizedTitle: String,
 
     @SerialName("thumbnail")
-    val thumbnail: ArticleThumnail?= null,
+    val thumbnail: ArticleThumbnail? = null,
+
+    @SerialName("originalimage")
+    val defaultThumbnail: DefaultThumbnail? = null,
 
     @SerialName("tid")
     val tid: String,

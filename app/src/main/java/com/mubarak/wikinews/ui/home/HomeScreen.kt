@@ -20,12 +20,10 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.staggeredgrid.LazyVerticalStaggeredGrid
-import androidx.compose.foundation.lazy.staggeredgrid.StaggeredGridCells
-import androidx.compose.foundation.lazy.staggeredgrid.items
-import androidx.compose.foundation.lazy.staggeredgrid.rememberLazyStaggeredGridState
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.GridItemSpan
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
@@ -41,38 +39,25 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.TopAppBarState
-import androidx.compose.material3.pulltorefresh.PullToRefreshBox
-import androidx.compose.material3.pulltorefresh.PullToRefreshState
-import androidx.compose.material3.pulltorefresh.pullToRefresh
-import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.mubarak.wikinews.R
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.article.Article
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
-import com.mubarak.wikinews.ui.Bookmarks
 import com.mubarak.wikinews.utils.TimeStampConvertor
-import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.flow
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
 @Composable
@@ -82,15 +67,15 @@ fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val newsUiState = viewModel.newsUiState
-    HomeScreen(modifier = modifier,uiState = newsUiState, onSearchActionClick = onSearchActionClick)
+    HomeScreen(
+        modifier = modifier, uiState = newsUiState, onSearchActionClick = onSearchActionClick
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    modifier: Modifier = Modifier,
-    onSearchActionClick: () -> Unit,
-    uiState: HomeUiState
+    modifier: Modifier = Modifier, onSearchActionClick: () -> Unit, uiState: HomeUiState
 ) {
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -102,9 +87,7 @@ fun HomeScreen(
             HomeUiState.Error -> {
                 // TODO: show error screen
                 Toast.makeText(
-                    context,
-                    stringResource(id = R.string.error_msg),
-                    Toast.LENGTH_SHORT
+                    context, stringResource(id = R.string.error_msg), Toast.LENGTH_SHORT
                 ).show()
             }
 
@@ -114,8 +97,7 @@ fun HomeScreen(
 
             is HomeUiState.Success -> {
                 NewsFeed(
-                    newsFeed = uiState.newsFeed,
-                    modifier = Modifier.padding(it)
+                    newsFeed = uiState.newsFeed, modifier = Modifier.padding(it)
                 )
             }
         }
@@ -128,24 +110,32 @@ fun NewsFeed(
     modifier: Modifier = Modifier,
     newsFeed: NewsFeed,
 ) {
-    LazyColumn(
+    LazyVerticalGrid(
         modifier = modifier,
+        columns = GridCells.Adaptive(minSize = 250.dp),
         contentPadding = PaddingValues(0.dp),
     ) {
-        item {
+        item(span = {
+            GridItemSpan(maxLineSpan)
+        }) {
+
             TfaSection(tfa = newsFeed.todayFeaturedArticle) // tfa Section main
         }
 
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
-            item {
+            item(span = {
+                GridItemSpan(maxLineSpan)
+            }) {
                 OnThisDaySection(onThisDay = onThisDayNews)
             }
         }
 
         val newsFeedArticle = newsFeed.news ?: emptyList()
         if (newsFeedArticle.isNotEmpty()) { // News section contains approx: 4
-            item {
+            item(span = {
+                GridItemSpan(maxLineSpan)
+            }) {
                 FeedListNewsSection(news = newsFeedArticle) // news
             }
         }
@@ -161,8 +151,7 @@ fun NewsFeed(
 
 @Composable
 fun MostReadArticleSection(
-    modifier: Modifier = Modifier,
-    article: Article
+    modifier: Modifier = Modifier, article: Article
 ) {
     MostReadArticles(article = article, modifier = modifier)
     NewsItemDivider()
@@ -170,8 +159,7 @@ fun MostReadArticleSection(
 
 @Composable
 fun MostReadArticles(
-    modifier: Modifier = Modifier,
-    article: Article
+    modifier: Modifier = Modifier, article: Article
 ) {
 
     val timeStamp = remember(article.timestamp) {
@@ -183,32 +171,40 @@ fun MostReadArticles(
             .padding(16.dp)
     ) {
         val imgModifier = Modifier
-            .heightIn(min = 180.dp, max = 200.dp)
+            .heightIn(min = 140.dp, max = 160.dp)
             .fillMaxWidth()
-            .clip(shape = MaterialTheme.shapes.small)
+            .clip(shape = MaterialTheme.shapes.medium)
 
         NewsFeedImage(
             modifier = imgModifier,
-            imgUrl = article.thumbnail?.imgUrl
+            imgUrl = article.thumbnail?.imgUrl,
+            contentDescription = article.normalizedTitle
         )
         Spacer(modifier = Modifier.height(16.dp))
 
         NewsTitle(
-            text = article.longDescription,
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = article.longDescription, modifier = Modifier.padding(bottom = 8.dp)
         )
         Text(
-            text = timeStamp,
-            style = MaterialTheme.typography.bodySmall
+            text = timeStamp, style = MaterialTheme.typography.bodySmall
         )
     }
 }
 
 @Composable
 fun OnThisDaySection(modifier: Modifier = Modifier, onThisDay: List<Onthisday>) {
-    for (onThisDayItem in onThisDay) {
-        OnThisDaySection(onThisDay = onThisDayItem, modifier = modifier)
-        NewsItemDivider()
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Text(
+            text = stringResource(id = R.string.onThis_day_happened),
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(8.dp)
+        )
+
+        for (onThisDayItem in onThisDay) {
+            OnThisDaySection(onThisDay = onThisDayItem, modifier = modifier)
+            NewsItemDivider()
+        }
     }
 }
 
@@ -233,25 +229,21 @@ fun TfaSection(
     modifier: Modifier = Modifier,
     tfa: Tfa?,
 ) {
-    NewsTitle(
-        text = stringResource(id = R.string.today_featured_article),
-        color = MaterialTheme.colorScheme.onTertiaryContainer,
-        modifier = modifier.padding(
-            start = 16.dp, top = 16.dp, end = 16.dp
-        )
-    )
 
-    tfa?.let {
-        TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
+    Column(modifier = modifier.fillMaxWidth()) {
+        Text(
+            text = stringResource(id = R.string.today_featured_article),
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(8.dp)
+        )
+        tfa?.let {
+            TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
+        }
     }
 
     NewsItemDivider()
 
-    NewsTitle(
-        text = stringResource(id = R.string.onThis_day_happened),
-        color = MaterialTheme.colorScheme.onTertiaryContainer,
-        modifier = Modifier.padding(16.dp)
-    )
 }
 
 
@@ -260,9 +252,11 @@ fun FeedListNewsSection(
     modifier: Modifier = Modifier, news: List<News>
 ) {
     Column {
-        NewsTitle(
-            modifier = modifier.padding(start = 16.dp, top = 16.dp),
-            text = stringResource(id = R.string.today_hot_topic)
+        Text(
+            text = stringResource(id = R.string.today_hot_topic),
+            color = MaterialTheme.colorScheme.onTertiaryContainer,
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(8.dp)
         )
 
         Row(
@@ -277,13 +271,11 @@ fun FeedListNewsSection(
                 }
             }
         }
-
-        NewsTitle(
+        Text(
             text = stringResource(id = R.string.most_read),
             color = MaterialTheme.colorScheme.onTertiaryContainer,
-            modifier = Modifier.padding(
-                start = 16.dp, top = 16.dp, end = 16.dp
-            )
+            style = MaterialTheme.typography.titleLarge,
+            modifier = Modifier.padding(8.dp)
         )
     }
 }

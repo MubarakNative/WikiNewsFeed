@@ -1,6 +1,5 @@
 package com.mubarak.wikinews.ui.home
 
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -10,6 +9,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.mubarak.wikinews.R
@@ -17,7 +17,8 @@ import com.mubarak.wikinews.R
 @Composable
 fun NewsFeedImage(
     modifier: Modifier = Modifier,
-    imgUrl: String?
+    imgUrl: String?,
+    contentDescription: String? = null
 ) {
     val context = LocalContext.current
     AsyncImage(
@@ -25,7 +26,7 @@ fun NewsFeedImage(
             .crossfade(true).build(),
         error = painterResource(id = R.drawable.news_placeholder),
         placeholder = painterResource(id = R.drawable.loading_placeholder),
-        contentDescription = null,
+        contentDescription = contentDescription,
         modifier = modifier,
         contentScale = ContentScale.Crop
     )
@@ -41,9 +42,9 @@ fun NewsTitle(
         text = text,
         modifier = modifier,
         color = color,
-        maxLines = 2,
+        maxLines = 3,
         overflow = TextOverflow.Ellipsis,
         fontWeight = FontWeight.W500,
-        style = MaterialTheme.typography.titleLarge
+        fontSize = 19.sp,
     )
 }
