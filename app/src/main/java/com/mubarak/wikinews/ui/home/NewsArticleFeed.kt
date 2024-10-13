@@ -21,7 +21,6 @@ import com.mubarak.wikinews.data.sources.remote.dto.NewsContentUrl
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.NewsArticleThumnail
 import com.mubarak.wikinews.utils.TimeStampConvertor
 
-
 @Composable
 fun NewsArticlesFeed(
     modifier: Modifier = Modifier,
@@ -40,7 +39,8 @@ fun NewsArticlesFeed(
                 modifier = Modifier
                     .height(160.dp)
                     .fillMaxWidth(),
-                imgUrl = news.thumbnail?.imgUrl
+                imgUrl = news.thumbnail?.imgUrl,
+                contentDescription = news.normalizedTitle
             )
 
             Column(modifier = Modifier.padding(16.dp)) {

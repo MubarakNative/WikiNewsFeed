@@ -32,7 +32,6 @@ fun OnThisDaySection(
         modifier = Modifier, verticalAlignment = Alignment.CenterVertically
     ) { // TODO: provide accessibility service to consider this as a whole item
 
-
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -65,7 +64,7 @@ fun OnThisDaySection(
                 .padding(16.dp)
                 .size(80.dp, 80.dp)
                 .clip(MaterialTheme.shapes.small),
-            imgUrl = onThisDay.pages[0].thumbnail?.imgUrl // all pages list have same sort of news
+            imgUrl = onThisDay.pages[0].thumbnail?.imgUrl // all pages list have same sort of news,
         )
     }
 }
