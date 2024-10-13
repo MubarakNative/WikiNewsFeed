@@ -57,6 +57,8 @@ For more information, refer to the [Authentication Page](https://api.wikimedia.o
 
 ![](/WikiNews_Screenshots.png)
 
+![](/WikiNewsAppDemo.gif)
+
 ## Why WikiNews?
 - 🏅 **Fact-based journalism**: WikiNews focuses on verifiable information, reducing the spread of misinformation.
 - 🤝 **Community-driven**: WikiNews relies on collaborative efforts, ensuring diverse perspectives and accurate reporting.
