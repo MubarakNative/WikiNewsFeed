@@ -87,6 +87,9 @@ dependencies {
     implementation(libs.androidx.paging.runtime)
     implementation(libs.androidx.paging.compose)
 
+    // Preference Datastore
+    implementation(libs.androidx.datastore.preferences)
+
     // Coroutines
     implementation(libs.kotlinx.coroutines.android)
 
