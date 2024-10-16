@@ -1,4 +1,4 @@
-package com.mubarak.wikinews.data.sources
+package com.mubarak.wikinews.data
 
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import com.mubarak.wikinews.data.sources.remote.dto.search.SearchNews
