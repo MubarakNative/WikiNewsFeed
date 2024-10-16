@@ -6,7 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mubarak.wikinews.data.sources.NewsRepository
+import com.mubarak.wikinews.data.NewsRepository
 import com.mubarak.wikinews.data.sources.remote.dto.search.Page
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
