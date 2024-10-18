@@ -16,4 +16,5 @@
     <string name="search_title_clear">Clear search</string>
     <string name="no_result_found">Sorry, there is no content found for your search \"%1$s\</string>
     <string name="no_description">Description unavailable</string>
+    <string name="open_article_detail">Open article detail</string>
 </resources>

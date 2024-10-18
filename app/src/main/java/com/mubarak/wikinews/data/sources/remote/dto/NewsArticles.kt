@@ -8,7 +8,10 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class NewsArticles(
     @SerialName("content_urls")
-    val contentUrls: NewsContentUrl,
+    val contentUrls: ContentUrls,
+
+    @SerialName("pageid")
+    val pageId: Long,
 
     @SerialName("description")
     val description: String?= null,

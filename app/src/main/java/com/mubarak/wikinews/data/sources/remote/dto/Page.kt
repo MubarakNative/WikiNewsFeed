@@ -8,6 +8,9 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Page(
 
+    @SerialName("content_urls")
+    val contentUrls: Url,
+
     @SerialName("description")
     val description: String? = null,
 

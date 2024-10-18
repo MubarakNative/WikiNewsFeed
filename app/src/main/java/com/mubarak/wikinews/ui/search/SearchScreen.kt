@@ -170,9 +170,10 @@ fun SearchResultContent(
     modifier: Modifier = Modifier,
     page: Page
 ) {
+
     Row(
         modifier = modifier, verticalAlignment = Alignment.CenterVertically
-    ) { // TODO: provide accessibility service to consider this as a whole item
+    ) { // TODO: provide accessibility service with search suggestion for news
 
         NewsFeedImage(
             modifier = Modifier

@@ -10,6 +10,9 @@ data class Article(
     @SerialName("content_urls")
     val contentUrls: ContentUrls,
 
+    @SerialName("pageid")
+    val pageId: Long,
+
     @SerialName("description")
     val description: String? = null,
 
