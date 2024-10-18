@@ -2,16 +2,21 @@ package com.mubarak.wikinews.data.local.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.PrimaryKey
 
 @Entity(tableName = "featured_article")
 data class FeaturedArticle(
 
-@ColumnInfo(name = "article_description")
-val description: String,
+    @PrimaryKey
+    @ColumnInfo("id")
+    val id: Long,
 
-@ColumnInfo(name = "image_url")
-val headerUrl: String? = null,
+    @ColumnInfo(name = "article_description")
+    val description: String,
 
-@ColumnInfo(name = "timeStamp")
-val timeStamp: String
+    @ColumnInfo(name = "image_url")
+    val headerUrl: String? = null,
+
+    @ColumnInfo(name = "timeStamp")
+    val timeStamp: String
 )

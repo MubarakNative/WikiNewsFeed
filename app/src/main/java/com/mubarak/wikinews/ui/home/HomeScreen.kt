@@ -1,10 +1,12 @@
 package com.mubarak.wikinews.ui.home
 
+import android.content.Context
 import android.content.res.Configuration
+import android.net.Uri
 import android.os.Build
 import android.widget.Toast
 import androidx.annotation.RequiresExtension
-import androidx.compose.foundation.clickable
+import androidx.browser.customtabs.CustomTabsIntent
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -25,8 +27,11 @@ import androidx.compose.foundation.lazy.grid.GridItemSpan
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -48,6 +53,8 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.semantics.onClick
+import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -118,7 +125,6 @@ fun NewsFeed(
         item(span = {
             GridItemSpan(maxLineSpan)
         }) {
-
             TfaSection(tfa = newsFeed.todayFeaturedArticle) // tfa Section main
         }
 
@@ -153,46 +159,67 @@ fun NewsFeed(
 fun MostReadArticleSection(
     modifier: Modifier = Modifier, article: Article
 ) {
-    MostReadArticles(article = article, modifier = modifier)
+    val context = LocalContext.current
+    MostReadArticles(article = article, modifier = modifier, onClick = {
+        launchCustomChromeTab(
+            loadUrl = article.contentUrls.mobile.pageUrl,
+            context = context
+        )
+    })
     NewsItemDivider()
 }
 
 @Composable
 fun MostReadArticles(
-    modifier: Modifier = Modifier, article: Article
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {},
+    article: Article
 ) {
 
     val timeStamp = remember(article.timestamp) {
         TimeStampConvertor.formatTimestampToUtc(article.timestamp)
     }
-    Column(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp)
+
+    val clickActionLabel = stringResource(id = R.string.open_article_detail)
+    Card(
+        onClick = onClick,
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
+        modifier = modifier.semantics {
+            onClick(label = clickActionLabel, action = null)
+        },
     ) {
-        val imgModifier = Modifier
-            .heightIn(min = 140.dp, max = 160.dp)
-            .fillMaxWidth()
-            .clip(shape = MaterialTheme.shapes.medium)
+        Column(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(16.dp)
+        ) {
+            val imgModifier = Modifier
+                .heightIn(min = 140.dp, max = 160.dp)
+                .fillMaxWidth()
+                .clip(shape = MaterialTheme.shapes.medium)
 
-        NewsFeedImage(
-            modifier = imgModifier,
-            imgUrl = article.thumbnail?.imgUrl,
-            contentDescription = article.normalizedTitle
-        )
-        Spacer(modifier = Modifier.height(16.dp))
+            NewsFeedImage(
+                modifier = imgModifier,
+                imgUrl = article.thumbnail?.imgUrl,
+                contentDescription = article.normalizedTitle
+            )
+            Spacer(modifier = Modifier.height(16.dp))
 
-        NewsTitle(
-            text = article.longDescription, modifier = Modifier.padding(bottom = 8.dp)
-        )
-        Text(
-            text = timeStamp, style = MaterialTheme.typography.bodySmall
-        )
+            NewsTitle(
+                text = article.longDescription, modifier = Modifier.padding(bottom = 8.dp)
+            )
+            Text(
+                text = timeStamp, style = MaterialTheme.typography.bodySmall
+            )
+        }
     }
 }
 
 @Composable
 fun OnThisDaySection(modifier: Modifier = Modifier, onThisDay: List<Onthisday>) {
+
+    val context = LocalContext.current
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = stringResource(id = R.string.onThis_day_happened),
@@ -202,7 +229,12 @@ fun OnThisDaySection(modifier: Modifier = Modifier, onThisDay: List<Onthisday>) 
         )
 
         for (onThisDayItem in onThisDay) {
-            OnThisDaySection(onThisDay = onThisDayItem, modifier = modifier)
+            OnThisDaySection(onThisDay = onThisDayItem, modifier = modifier, onClick = {
+                launchCustomChromeTab(
+                    loadUrl = onThisDayItem.pages[0].contentUrls.mobile.pageUrl,
+                    context = context
+                )
+            })
             NewsItemDivider()
         }
     }
@@ -229,7 +261,7 @@ fun TfaSection(
     modifier: Modifier = Modifier,
     tfa: Tfa?,
 ) {
-
+    val context = LocalContext.current
     Column(modifier = modifier.fillMaxWidth()) {
         Text(
             text = stringResource(id = R.string.today_featured_article),
@@ -238,7 +270,12 @@ fun TfaSection(
             modifier = Modifier.padding(8.dp)
         )
         tfa?.let {
-            TodayFeaturedArticle(tfa = tfa, modifier = Modifier.clickable { })
+            TodayFeaturedArticle(tfa = tfa, onClick = {
+                launchCustomChromeTab(
+                    loadUrl = tfa.contentUrls.mobile.pageUrl,
+                    context = context
+                )
+            })
         }
     }
 
@@ -251,6 +288,7 @@ fun TfaSection(
 fun FeedListNewsSection(
     modifier: Modifier = Modifier, news: List<News>
 ) {
+    val context = LocalContext.current
     Column {
         Text(
             text = stringResource(id = R.string.today_hot_topic),
@@ -267,7 +305,13 @@ fun FeedListNewsSection(
         ) {
             for (newsItem in news) {
                 if (newsItem.newsArticles.isNotEmpty()) {
-                    NewsArticlesFeed(news = newsItem.newsArticles[0], modifier = modifier)
+                    val newsArticle = newsItem.newsArticles[0]
+                    NewsArticlesFeed(news = newsArticle, modifier = modifier, onClick = {
+                        launchCustomChromeTab(
+                            loadUrl = newsArticle.contentUrls.mobile.pageUrl,
+                            context = context
+                        )
+                    })
                 }
             }
         }
@@ -320,6 +364,14 @@ fun HomeTopAppBar(
         scrollBehavior = scrollBehavior
     )
 
+}
+
+fun launchCustomChromeTab(loadUrl: String, context: Context) {
+    val intent = CustomTabsIntent.Builder()
+        .setShowTitle(true)
+        .setUrlBarHidingEnabled(true)
+        .build()
+    intent.launchUrl(context, Uri.parse(loadUrl))
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

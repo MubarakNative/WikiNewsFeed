@@ -10,6 +10,9 @@ data class Tfa( // today featured content
     @SerialName("content_urls")
     val contentUrls: Url,
 
+    @SerialName("pageid")
+    val pageId: Long,
+
     @SerialName("description")
     val description: String,
 

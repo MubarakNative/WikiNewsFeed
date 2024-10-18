@@ -8,9 +8,9 @@ data class NewsFeedEntity(
     @Embedded
     val featured: FeaturedArticle,
     @Embedded
-    val mostReadArticles: ArticleEntity? = null,
+    val mostReadArticles: ArticleEntity,
     @Embedded
-    val todayNews: NewsArticleEntity? = null,
+    val todayNews: NewsArticleEntity,
     @Embedded
-    val onThisDayHappenedNews: OnThisDayEntity? = null
+    val onThisDayHappenedNews: OnThisDayEntity
 )
