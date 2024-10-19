@@ -1,4 +1,4 @@
-package com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.article
+package com.mubarak.wikinews.data.sources.remote.dto.mostread.article
 
 
 import com.mubarak.wikinews.data.sources.remote.dto.ContentUrls
