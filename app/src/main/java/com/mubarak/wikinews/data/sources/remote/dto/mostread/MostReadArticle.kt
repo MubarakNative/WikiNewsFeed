@@ -1,7 +1,6 @@
-package com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread
+package com.mubarak.wikinews.data.sources.remote.dto.mostread
 
-
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.mostread.article.Article
+import com.mubarak.wikinews.data.sources.remote.dto.mostread.article.Article
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 

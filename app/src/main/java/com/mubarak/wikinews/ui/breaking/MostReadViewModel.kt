@@ -1,4 +1,4 @@
-package com.mubarak.wikinews.ui.home
+package com.mubarak.wikinews.ui.breaking
 
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -6,41 +6,40 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mubarak.wikinews.data.NewsRepository
+import com.mubarak.wikinews.data.sources.remote.NewsFeedApi
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
 import javax.inject.Inject
 
-sealed interface HomeUiState {
-    data class Success(val newsFeed: NewsFeed) : HomeUiState
-    data object Error : HomeUiState
-    data object Loading : HomeUiState
+sealed interface MostReadUiState {
+    data class Success(val newsFeed: NewsFeed) : MostReadUiState
+    data object Error : MostReadUiState
+    data object Loading : MostReadUiState
 }
 
 @HiltViewModel
-class HomeViewModel @Inject constructor(
+class MostReadViewModel @Inject constructor(
     private val newsRepository: NewsRepository
 ) : ViewModel() {
-
-    var newsUiState: HomeUiState by mutableStateOf(HomeUiState.Loading)
+    var mostReadUiState: MostReadUiState by mutableStateOf(MostReadUiState.Loading)
         private set
 
     init {
-        getNewsFeed()
+        getMostReadFeed()
     }
 
-    private fun getNewsFeed() {
+    private fun getMostReadFeed() {
         viewModelScope.launch {
-            newsUiState = HomeUiState.Loading
-            newsUiState = try {
-                HomeUiState.Success(newsRepository.getNewsFeed())
+            mostReadUiState = MostReadUiState.Loading
+            mostReadUiState = try {
+                MostReadUiState.Success(newsRepository.getNewsFeed())
             } catch (e: IOException) {
-                HomeUiState.Error
+                MostReadUiState.Error
             } catch (e: Exception) {
-                HomeUiState.Error
+                MostReadUiState.Error
             }
         }
     }
-
 }

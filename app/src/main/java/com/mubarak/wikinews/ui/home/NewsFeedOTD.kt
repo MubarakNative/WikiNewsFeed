@@ -4,10 +4,10 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -25,7 +25,6 @@ import com.mubarak.wikinews.R
 import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
 import com.mubarak.wikinews.utils.TimeStampConvertor
 
-
 @Composable
 fun OnThisDaySection(
     modifier: Modifier = Modifier,
@@ -40,20 +39,19 @@ fun OnThisDaySection(
 
     Card(
         onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier.semantics {
             onClick(label = clickActionLabel, action = null)
         },
     ) {
         Row(
-            modifier = Modifier, verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-
             Column(
                 verticalArrangement = Arrangement.Center,
                 modifier = Modifier
-                    .padding(10.dp)
+                    .padding(16.dp)
                     .weight(1f),
             ) {
 

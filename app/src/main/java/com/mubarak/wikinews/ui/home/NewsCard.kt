@@ -1,14 +1,19 @@
 package com.mubarak.wikinews.ui.home
 
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.blur
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
@@ -27,7 +32,7 @@ fun NewsFeedImage(
         error = painterResource(id = R.drawable.news_placeholder),
         placeholder = painterResource(id = R.drawable.loading_placeholder),
         contentDescription = contentDescription,
-        modifier = modifier,
+        modifier = modifier.blur(80.dp),
         contentScale = ContentScale.Crop
     )
 }
@@ -46,5 +51,17 @@ fun NewsTitle(
         overflow = TextOverflow.Ellipsis,
         fontWeight = FontWeight.W500,
         fontSize = 19.sp,
+    )
+}
+
+@Composable
+fun NewsTitleSection(
+    modifier: Modifier = Modifier,
+    text: String
+) {
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleLarge,
+        modifier = modifier.padding(start = 8.dp)
     )
 }
