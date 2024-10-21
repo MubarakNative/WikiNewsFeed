@@ -21,10 +21,10 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.ContentUrls
-import com.mubarak.wikinews.data.sources.remote.dto.Mobile
-import com.mubarak.wikinews.data.sources.remote.dto.NewsArticles
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.NewsArticleThumnail
+import com.mubarak.wikinews.data.network.models.dto.ContentUrls
+import com.mubarak.wikinews.data.network.models.dto.Mobile
+import com.mubarak.wikinews.data.network.models.dto.NewsArticles
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.news.NewsArticleThumnail
 import com.mubarak.wikinews.utils.TimeStampConvertor
 
 @Composable

@@ -41,8 +41,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.mostread.article.Article
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
+import com.mubarak.wikinews.data.network.models.dto.mostread.article.Article
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.NewsFeed
 import com.mubarak.wikinews.ui.home.NewsFeedImage
 import com.mubarak.wikinews.ui.home.NewsItemDivider
 import com.mubarak.wikinews.ui.home.NewsLoadingScreen
@@ -65,7 +65,7 @@ fun MostReadRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MostReadScreen(
+internal fun MostReadScreen(
     modifier: Modifier = Modifier,
     onSearchActionClick: () -> Unit, uiState: MostReadUiState
 ) {

@@ -22,7 +22,7 @@ import androidx.compose.ui.semantics.onClick
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.unit.dp
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.onthisday.Onthisday
 import com.mubarak.wikinews.utils.TimeStampConvertor
 
 @Composable
