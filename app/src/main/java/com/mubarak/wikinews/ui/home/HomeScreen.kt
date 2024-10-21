@@ -2,6 +2,7 @@ package com.mubarak.wikinews.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
+import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
@@ -42,15 +43,16 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.NewsFeed
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.news.News
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.onthisday.Onthisday
-import com.mubarak.wikinews.data.sources.remote.dto.newsfeed.tfa.Tfa
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.NewsFeed
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.news.News
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.onthisday.Onthisday
+import com.mubarak.wikinews.data.network.models.dto.newsfeed.tfa.Tfa
 
 @Composable
 fun HomeRoute(
@@ -66,7 +68,7 @@ fun HomeRoute(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     modifier: Modifier = Modifier, onSearchActionClick: () -> Unit, uiState: HomeUiState
 ) {
     val context = LocalContext.current
@@ -254,7 +256,11 @@ fun HomeTopAppBar(
 }
 
 fun launchCustomChromeTab(loadUrl: String, context: Context) {
-    val intent = CustomTabsIntent.Builder().setShowTitle(true).setUrlBarHidingEnabled(true).build()
+
+    val intent = CustomTabsIntent.Builder()
+        .setShowTitle(true)
+        .setUrlBarHidingEnabled(true)
+        .build()
     intent.launchUrl(context, Uri.parse(loadUrl))
 }
 

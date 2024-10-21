@@ -54,7 +54,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
-import com.mubarak.wikinews.data.sources.remote.dto.search.Page
+import com.mubarak.wikinews.data.network.models.dto.search.Page
 import com.mubarak.wikinews.ui.home.NewsFeedImage
 import com.mubarak.wikinews.ui.home.NewsLoadingScreen
 import com.mubarak.wikinews.ui.home.NewsTitle

@@ -1,10 +1,10 @@
 package com.mubarak.wikinews.di
 
 import com.mubarak.wikinews.data.DefaultNewsRepository
-import com.mubarak.wikinews.data.sources.NewsRemoteDataSource
+import com.mubarak.wikinews.data.network.NewsRemoteDataSource
 import com.mubarak.wikinews.data.NewsRepository
-import com.mubarak.wikinews.data.sources.remote.DefaultNewsFeedApi
-import com.mubarak.wikinews.data.sources.remote.NewsFeedApi
+import com.mubarak.wikinews.data.network.models.remote.DefaultNewsFeedApi
+import com.mubarak.wikinews.data.network.models.remote.NewsFeedApi
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

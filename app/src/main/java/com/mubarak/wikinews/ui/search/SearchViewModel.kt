@@ -7,7 +7,7 @@ import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mubarak.wikinews.data.NewsRepository
-import com.mubarak.wikinews.data.sources.remote.dto.search.Page
+import com.mubarak.wikinews.data.network.models.dto.search.Page
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.io.IOException
