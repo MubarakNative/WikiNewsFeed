@@ -32,7 +32,7 @@ fun NewsFeedImage(
         error = painterResource(id = R.drawable.news_placeholder),
         placeholder = painterResource(id = R.drawable.loading_placeholder),
         contentDescription = contentDescription,
-        modifier = modifier.blur(80.dp),
+        modifier = modifier,
         contentScale = ContentScale.Crop
     )
 }

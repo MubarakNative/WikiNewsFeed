@@ -106,7 +106,7 @@ fun NewsFeed(
 ) {
     LazyVerticalGrid(
         modifier = modifier,
-        columns = GridCells.Adaptive(minSize = 250.dp),
+        columns = GridCells.Adaptive(minSize = 300.dp),
         contentPadding = PaddingValues(0.dp),
     ) {
         item(span = {
