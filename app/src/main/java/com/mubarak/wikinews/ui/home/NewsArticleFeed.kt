@@ -31,23 +31,17 @@ import com.mubarak.wikinews.utils.TimeStampConvertor
 fun NewsArticlesFeed(
     modifier: Modifier = Modifier, onClick: () -> Unit, news: NewsArticles
 ) {
-
     val timeStamp: String = remember(news.timestamp) {
         TimeStampConvertor.formatTimestampToUtc(news.timestamp)
     }
-    val clickActionLabel = stringResource(id = R.string.open_article_detail)
     Card(
-        shape = RoundedCornerShape(16.dp),
+        shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
         modifier = modifier
-            .width(280.dp)
-            .semantics {
-                onClick(label = clickActionLabel, action = null)
-            },
+            .width(280.dp),
         onClick = onClick
     ) {
         Column {
-
             NewsFeedImage(
                 modifier = Modifier
                     .height(160.dp)
