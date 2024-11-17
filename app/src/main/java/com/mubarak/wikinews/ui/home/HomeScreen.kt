@@ -2,10 +2,10 @@ package com.mubarak.wikinews.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -43,7 +43,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -109,6 +108,9 @@ fun NewsFeed(
         columns = GridCells.Adaptive(minSize = 300.dp),
         contentPadding = PaddingValues(0.dp),
     ) {
+        item {
+            NewsTitleSection(text = stringResource(id = R.string.today_featured_article))
+        }
         item(span = {
             GridItemSpan(maxLineSpan)
         }) {
@@ -117,6 +119,9 @@ fun NewsFeed(
 
         val onThisDayNews = newsFeed.onThisDay ?: emptyList()
         if (onThisDayNews.isNotEmpty() && onThisDayNews[0].pages.isNotEmpty()) {
+
+            item { NewsTitleSection(text = stringResource(id = R.string.onThis_day_happened)) }
+
             items(onThisDayNews) {
                 OnThisDaySection(onThisDay = it)
             }
@@ -124,6 +129,10 @@ fun NewsFeed(
 
         val newsFeedArticle = newsFeed.news ?: emptyList()
         if (newsFeedArticle.isNotEmpty()) { // News section contains approx: 3 ~ 4
+
+            item {
+                NewsTitleSection(text = stringResource(id = R.string.today_hot_topic))
+            }
             item(span = {
                 GridItemSpan(maxLineSpan)
             }) {
@@ -137,7 +146,7 @@ fun NewsFeed(
 fun OnThisDaySection(modifier: Modifier = Modifier, onThisDay: Onthisday) {
 
     val context = LocalContext.current
-    OnThisDaySection(onThisDay = onThisDay, modifier = modifier, onClick = {
+    OnThisDayNews(onThisDay = onThisDay, modifier = modifier.clickable {
         launchCustomChromeTab(
             loadUrl = onThisDay.pages[0].contentUrls.mobile.pageUrl, context = context
         )
@@ -167,17 +176,13 @@ fun TfaSection(
     tfa: Tfa?,
 ) {
     val context = LocalContext.current
-    Column(modifier = modifier) {
-        NewsTitleSection(text = stringResource(id = R.string.today_featured_article))
 
-        tfa?.let {
-            TodayFeaturedArticle(tfa = tfa, onClick = {
-                launchCustomChromeTab(
-                    loadUrl = tfa.contentUrls.mobile.pageUrl, context = context
-                )
-            })
-        }
-        NewsTitleSection(text = stringResource(id = R.string.onThis_day_happened))
+    tfa?.let {
+        TodayFeaturedArticle(modifier = Modifier.clickable {
+            launchCustomChromeTab(
+                loadUrl = tfa.contentUrls.mobile.pageUrl, context = context
+            )
+        }, tfa = tfa)
     }
 
     NewsItemDivider()
@@ -190,27 +195,25 @@ fun FeedListNewsSection(
     modifier: Modifier = Modifier, news: List<News>
 ) {
     val context = LocalContext.current
-    Column {
-        NewsTitleSection(text = stringResource(id = R.string.today_hot_topic))
 
-        Row(
-            modifier = Modifier
-                .horizontalScroll(rememberScrollState())
-                .height(IntrinsicSize.Max)
-                .padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            for (newsItem in news) {
-                if (newsItem.newsArticles.isNotEmpty()) {
-                    val newsArticle = newsItem.newsArticles[0]
-                    NewsArticlesFeed(news = newsArticle, modifier = modifier, onClick = {
-                        launchCustomChromeTab(
-                            loadUrl = newsArticle.contentUrls.mobile.pageUrl, context = context
-                        )
-                    })
-                }
+    Row(
+        modifier = Modifier
+            .horizontalScroll(rememberScrollState())
+            .height(IntrinsicSize.Max)
+            .padding(16.dp), horizontalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        for (newsItem in news) {
+            if (newsItem.newsArticles.isNotEmpty()) {
+                val newsArticle = newsItem.newsArticles[0]
+                NewsArticlesFeed(news = newsArticle, modifier = modifier, onClick = {
+                    launchCustomChromeTab(
+                        loadUrl = newsArticle.contentUrls.mobile.pageUrl, context = context
+                    )
+                })
             }
         }
     }
+
 }
 
 @Composable
