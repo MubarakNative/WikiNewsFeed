@@ -1,6 +1,7 @@
 package com.mubarak.wikinews.ui.breaking
 
 import android.widget.Toast
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
@@ -11,11 +12,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Search
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CenterAlignedTopAppBar
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -33,8 +31,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.semantics.onClick
-import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -50,22 +46,20 @@ import com.mubarak.wikinews.utils.TimeStampConvertor
 
 @Composable
 fun MostReadRoute(
-    modifier: Modifier = Modifier, onSearchActionClick: () -> Unit,
+    modifier: Modifier = Modifier,
+    onSearchActionClick: () -> Unit,
     viewModel: MostReadViewModel = hiltViewModel()
 ) {
     val mostReadFeed = viewModel.mostReadUiState
     MostReadScreen(
-        uiState = mostReadFeed,
-        onSearchActionClick = onSearchActionClick,
-        modifier = modifier
+        uiState = mostReadFeed, onSearchActionClick = onSearchActionClick, modifier = modifier
     )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun MostReadScreen(
-    modifier: Modifier = Modifier,
-    onSearchActionClick: () -> Unit, uiState: MostReadUiState
+    modifier: Modifier = Modifier, onSearchActionClick: () -> Unit, uiState: MostReadUiState
 ) {
     val context = LocalContext.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(rememberTopAppBarState())
@@ -86,8 +80,7 @@ internal fun MostReadScreen(
 
             is MostReadUiState.Success -> {
                 MostReadFeed(
-                    modifier = Modifier.padding(it),
-                    newsFeed = uiState.newsFeed
+                    modifier = Modifier.padding(it), newsFeed = uiState.newsFeed
                 )
             }
         }
@@ -122,8 +115,7 @@ fun MostReadArticleSection(
     val context = LocalContext.current
     MostReadArticles(article = article, modifier = modifier, onClick = {
         launchCustomChromeTab(
-            loadUrl = article.contentUrls.mobile.pageUrl,
-            context = context
+            loadUrl = article.contentUrls.mobile.pageUrl, context = context
         )
     })
     NewsItemDivider()
@@ -131,48 +123,37 @@ fun MostReadArticleSection(
 
 @Composable
 fun MostReadArticles(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
-    article: Article
+    modifier: Modifier = Modifier, onClick: () -> Unit = {}, article: Article
 ) {
 
     val timeStamp = remember(article.timestamp) {
         TimeStampConvertor.formatTimestampToUtc(article.timestamp)
     }
 
-    val clickActionLabel = stringResource(id = R.string.open_article_detail)
-    Card(
-        onClick = onClick,
-        shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surface),
-        modifier = modifier.semantics {
-            onClick(label = clickActionLabel, action = null)
-        },
+    Column(
+        modifier = modifier
+            .clickable(onClick = onClick)
+            .padding(16.dp)
+            .fillMaxWidth()
     ) {
-        Column(
-            modifier = modifier
-                .fillMaxWidth()
-                .padding(16.dp)
-        ) {
-            val imgModifier = Modifier
-                .heightIn(min = 140.dp, max = 160.dp)
-                .fillMaxWidth()
-                .clip(shape = MaterialTheme.shapes.small)
+        val imgModifier = Modifier
+            .heightIn(min = 160.dp, max = 180.dp)
+            .fillMaxWidth()
+            .clip(shape = MaterialTheme.shapes.small)
 
-            NewsFeedImage(
-                modifier = imgModifier,
-                imgUrl = article.thumbnail?.imgUrl,
-                contentDescription = article.normalizedTitle
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+        NewsFeedImage(
+            modifier = imgModifier,
+            imgUrl = article.thumbnail?.imgUrl,
+            contentDescription = article.normalizedTitle
+        )
+        Spacer(modifier = Modifier.height(16.dp))
 
-            NewsTitle(
-                text = article.longDescription, modifier = Modifier.padding(bottom = 8.dp)
-            )
-            Text(
-                text = timeStamp, style = MaterialTheme.typography.bodySmall
-            )
-        }
+        NewsTitle(
+            text = article.description ?: article.longDescription, modifier = Modifier.padding(bottom = 8.dp)
+        )
+        Text(
+            text = timeStamp, style = MaterialTheme.typography.bodySmall
+        )
     }
 }
 
@@ -184,8 +165,7 @@ fun MostReadAppBar(
     searchActionClick: () -> Unit = {},
     scrollBehavior: TopAppBarScrollBehavior = TopAppBarDefaults.pinnedScrollBehavior(scrollState)
 ) {
-    CenterAlignedTopAppBar(
-        modifier = modifier,
+    CenterAlignedTopAppBar(modifier = modifier,
         colors = TopAppBarDefaults.centerAlignedTopAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             titleContentColor = MaterialTheme.colorScheme.primary,

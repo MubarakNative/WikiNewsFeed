@@ -9,10 +9,8 @@ import com.mubarak.wikinews.R
 // Set of Material typography styles to start with
 
 val dmSansFamily = FontFamily(
-    Font(R.font.dmsans_18pt_light, FontWeight.Light),
     Font(R.font.dmsans_18pt_regular, FontWeight.Normal),
     Font(R.font.dmsans_24pt_medium, FontWeight.Medium),
-    Font(R.font.dmsans_18pt_semibold, FontWeight.Bold)
 )
 
 // Default Material 3 typography values
