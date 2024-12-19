@@ -162,9 +162,7 @@ fun NewsLoadingScreen(modifier: Modifier = Modifier) {
             .wrapContentSize(Alignment.Center)
     ) {
         CircularProgressIndicator(
-            modifier = Modifier.width(64.dp),
-            color = MaterialTheme.colorScheme.secondary,
-            trackColor = MaterialTheme.colorScheme.surfaceVariant
+            modifier = Modifier.width(64.dp)
         )
     }
 
