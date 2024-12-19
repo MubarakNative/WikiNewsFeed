@@ -6,11 +6,11 @@ datastorePreferences = "1.1.1"
 desugar_jdk_libs = "2.1.2"
 hiltNavigationCompose = "1.2.0"
 kotlin = "2.0.0"
-coreKtx = "1.13.1"
+coreKtx = "1.15.0"
 junit = "4.13.2"
-daggerHiltVersion = "2.51.1"
+daggerHiltVersion = "2.52"
 junitVersion = "1.2.1"
-kotlinxCoroutinesAndroid = "1.8.1"
+kotlinxCoroutinesAndroid = "1.9.0"
 kotlinxSerializationJson = "1.7.2"
 kspVersion = "2.0.0-1.0.21"
 espressoCore = "3.6.1"
@@ -21,12 +21,10 @@ ktorClientCore = "2.3.12"
 ktorClientLogging = "2.3.12"
 ktorSerializationKotlinxJson = "2.3.12"
 lifecycleRuntimeKtx = "2.8.6"
-activityCompose = "1.9.2"
-composeBom = "2024.09.02"
-material3AdaptiveNavigationSuite = "1.3.0"
-navigationCompose = "2.8.3"
-pagingCompose = "3.3.2"
-pagingRuntime = "3.3.2"
+activityCompose = "1.9.3"
+composeBom = "2024.12.01"
+material3AdaptiveNavigationSuite = "1.3.1"
+navigationCompose = "2.8.5"
 roomVersion = "2.6.1"
 
 
@@ -41,10 +39,7 @@ androidx-material3-adaptive-navigation-suite = { module = "androidx.compose.mate
 androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomVersion" }
 androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomVersion" }
 androidx-room-runtime = { module = "androidx.room:room-runtime", version.ref = "roomVersion" }
-androidx-room-testing = { module = "androidx.room:room-testing", version.ref = "roomVersion" }
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
-androidx-paging-compose = { module = "androidx.paging:paging-compose", version.ref = "pagingCompose" }
-androidx-paging-runtime = { module = "androidx.paging:paging-runtime", version.ref = "pagingRuntime" }
 coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
 desugar_jdk_libs = { module = "com.android.tools:desugar_jdk_libs", version.ref = "desugar_jdk_libs" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
