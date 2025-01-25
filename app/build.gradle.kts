@@ -24,6 +24,12 @@ android {
         }
     }
 
+    java{
+        toolchain{
+            languageVersion = JavaLanguageVersion.of(21)
+        }
+    }
+
     buildTypes {
         release {
             isMinifyEnabled = false
