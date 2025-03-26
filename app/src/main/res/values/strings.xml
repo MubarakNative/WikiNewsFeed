@@ -18,4 +18,5 @@
     <string name="no_description">Description unavailable</string>
     <string name="open_article_detail">Open article detail</string>
     <string name="most_read_title">Most read</string>
+    <string name="pls_turn_internet_conn">Turn on mobile data!</string>
 </resources>

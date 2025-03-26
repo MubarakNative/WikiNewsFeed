@@ -2,6 +2,7 @@ package com.mubarak.wikinews.ui.home
 
 import android.content.Context
 import android.content.res.Configuration
+import android.net.ConnectivityManager
 import android.net.Uri
 import android.widget.Toast
 import androidx.browser.customtabs.CustomTabsIntent
@@ -9,7 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -46,6 +46,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.mubarak.wikinews.R
 import com.mubarak.wikinews.data.network.models.dto.newsfeed.NewsFeed
@@ -140,6 +141,12 @@ fun NewsFeed(
             }
         }
     }
+}
+
+fun isOnline(context: Context): Boolean {
+    val cm = context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
+    val netInfo = cm.activeNetworkInfo
+    return netInfo != null && netInfo.isConnectedOrConnecting
 }
 
 @Composable
