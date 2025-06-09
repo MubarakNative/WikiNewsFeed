@@ -18,12 +18,6 @@ data object Featured
 data object MostRead
 
 @Serializable
-data object Bookmarks
-
-@Serializable
-data object Settings
-
-@Serializable
 data object Search
 
 data class TopLevelRoute<T : Any>(val route: T,@StringRes val label:Int, val icon: ImageVector)
@@ -31,6 +25,4 @@ data class TopLevelRoute<T : Any>(val route: T,@StringRes val label:Int, val ico
 val TopLevelDestination = listOf(
     TopLevelRoute(route = Featured, label = R.string.featured, Icons.Default.Star),
     TopLevelRoute(route = MostRead,label = R.string.breaking, Icons.Default.BarChart),
-    TopLevelRoute(route = Bookmarks, label = R.string.bookmarks,Icons.Default.Bookmarks),
-    TopLevelRoute(route = Settings,label = R.string.settings, Icons.Default.Settings),
 )
