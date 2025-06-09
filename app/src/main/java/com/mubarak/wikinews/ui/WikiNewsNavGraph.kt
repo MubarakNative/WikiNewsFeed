@@ -4,12 +4,10 @@ import android.os.Build
 import androidx.annotation.RequiresExtension
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mubarak.wikinews.ui.bookmarks.BookmarksRoute
 import com.mubarak.wikinews.ui.breaking.MostReadRoute
 import com.mubarak.wikinews.ui.home.HomeRoute
 import com.mubarak.wikinews.ui.search.SearchRoute
@@ -36,14 +34,6 @@ fun WikiNewsNavGraph(
             MostReadRoute(onSearchActionClick = {
                 navController.navigateWithBackStack(Search)
             })
-        }
-
-        composable<Bookmarks> {
-            BookmarksRoute()
-        }
-
-        composable<Settings> {
-            SettingsRoute()
         }
 
         composable<Search> {
